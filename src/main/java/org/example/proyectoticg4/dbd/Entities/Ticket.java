@@ -18,5 +18,28 @@ public class Ticket {
     @Embedded
     private Seat.SeatId seatId;
 
-    // Getters and Setters
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Seat.SeatId getSeatId() {
+        return seatId;
+    }
+
+    public void setSeatId(Seat.SeatId seatId) {
+        this.seatId = seatId;
+    }
+
 }

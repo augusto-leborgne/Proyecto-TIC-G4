@@ -1,7 +1,7 @@
 package org.example.proyectoticg4.dbd.controllers;
 
 import org.example.proyectoticg4.dbd.Entities.Hall;
-import org.example.proyectoticg4.dbd.repositories.HallRepository;
+import org.example.proyectoticg4.dbd.Repositories.HallRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -22,5 +22,25 @@ public class Cinema {
     @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Hall> hallSet;
 
-    // Getters and Setters
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+    public void setNeighborhood(String neighborhood) {
+        this.neighborhood = neighborhood;
+    }
+    public Integer getCiNumber() {
+        return ciNumber;
+    }
+    public void setCiNumber(Integer ciNumber) {
+        this.ciNumber = ciNumber;
+    }
+    public Integer getHalls() {
+        return halls;
+    }
+    public void setHalls(Integer halls) {
+        this.halls = halls;
+    }
+    public Set<Hall> getHallSet() {
+        return hallSet;
+    }
 }
