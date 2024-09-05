@@ -1,7 +1,7 @@
 package org.example.proyectoticg4.dbd.controllers;
 
 import org.example.proyectoticg4.dbd.Entities.Cinema;
-import org.example.proyectoticg4.dbd.repositories.CinemaRepository;
+import org.example.proyectoticg4.dbd.Repositories.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

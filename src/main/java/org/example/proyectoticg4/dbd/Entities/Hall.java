@@ -21,7 +21,29 @@ public class Hall {
     @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Seat> seats;
 
-    // Getters and Setters
+    public HallId getId() {
+        return id;
+    }
+
+    public void setId(HallId id) {
+        this.id = id;
+    }
+
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
+    }
+
+    public Set<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Set<Seat> seats) {
+        this.seats = seats;
+    }
 
     @Embeddable
     public static class HallId implements java.io.Serializable {
@@ -32,6 +54,22 @@ public class Hall {
             this.hNumber = integer;
         }
 
-        // Getters, Setters, equals, hashcode
+        public Integer gethNumber() {
+            return hNumber;
+        }
+
+        public void sethNumber(Integer hNumber) {
+            this.hNumber = hNumber;
+        }
+
+        public Integer getCinemaNumber() {
+            return cinemaNumber;
+        }
+
+        public void setCinemaNumber(Integer cinemaNumber) {
+            this.cinemaNumber = cinemaNumber;
+        }
+
+        // Equals, hashcode
     }
 }

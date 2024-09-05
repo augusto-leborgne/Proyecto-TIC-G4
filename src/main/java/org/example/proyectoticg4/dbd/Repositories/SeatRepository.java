@@ -1,4 +1,4 @@
-package org.example.proyectoticg4.dbd.repositories;
+package org.example.proyectoticg4.dbd.Repositories;
 
 import org.example.proyectoticg4.dbd.Entities.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;

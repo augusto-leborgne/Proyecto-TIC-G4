@@ -30,6 +30,38 @@ public class Seat {
         private Integer seatRow;
         private Integer seatColumn;
 
-        // Getters, Setters, equals, hashcode
+        public Integer getHallNumber() {
+            return hallNumber;
+        }
+
+        public void setHallNumber(Integer hallNumber) {
+            this.hallNumber = hallNumber;
+        }
+
+        public Integer getCinemaNumber() {
+            return cinemaNumber;
+        }
+
+        public void setCinemaNumber(Integer cinemaNumber) {
+            this.cinemaNumber = cinemaNumber;
+        }
+
+        public Integer getSeatRow() {
+            return seatRow;
+        }
+
+        public void setSeatRow(Integer seatRow) {
+            this.seatRow = seatRow;
+        }
+
+        public Integer getSeatColumn() {
+            return seatColumn;
+        }
+
+        public void setSeatColumn(Integer seatColumn) {
+            this.seatColumn = seatColumn;
+        }
+
+        //equals, hashcode
     }
 }
