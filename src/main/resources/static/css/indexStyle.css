@@ -1,0 +1,93 @@
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Menú de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 15px;
+}
+
+.menu-buttons {
+    display: flex;
+}
+
+.menu-buttons button {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.menu-buttons button:hover {
+    background-color: #357AE8;
+}
+
+.search-input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 250px;
+}
+
+/* Carrusel a pantalla parcial (60% de la pantalla) */
+.full-screen-carousel {
+    width: 100vw; /* Ocupa todo el ancho de la ventana */
+    height: 100vh; /* Ocupa todo el alto de la ventana */
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 1s ease-in-out;
+    width: 400%;/* Ancho total para 4 imágenes */
+}
+
+.carousel-item {
+    flex: 1 0 100vw; /* Cada imagen ocupa el 100% del ancho de la pantalla */
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 100%; 
+}
+
+/* Información de contacto */
+.contact-info {
+    background-color: #f4f4f4;
+    padding: 50px;
+    text-align: center;
+}
+
+.contact-info h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}

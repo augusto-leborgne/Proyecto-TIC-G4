@@ -1,0 +1,81 @@
+/* Estilo general del body y fondo */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Full height of the viewport */
+    background: linear-gradient(to bottom, #333, #000); /* Smooth gradient background */
+    font-family: 'Arial', sans-serif;
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    color: white; /* White text for contrast */
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.1); /* Translucent white background */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Depth shadow */
+    width: 300px;
+    text-align: center;
+}
+
+
+/* Estilo del logo */
+.logo img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+/* Estilo de los títulos */
+/* Estilo del h2 - título principal */
+h2 {
+    font-family: 'Poppins', sans-serif; /* Fuente Poppins para h2 */
+    font-size: 36px; /* Tamaño grande y atractivo */
+    font-weight: 700; /* Negrita para un impacto fuerte */
+    color: #FFF; /* Color tomate (rojo suave) */
+    margin-bottom: 30px;
+}
+
+/* Estilo del h3 - eslogan */
+h3 {
+    font-family: 'Roboto', sans-serif; /* Fuente Roboto para h3 */
+    font-size: 15px; /* Tamaño medio para el eslogan */
+    font-weight: 400; /* Normal para un estilo más relajado */
+    color: #FFF; /* Blanco para un contraste con el fondo oscuro */
+    margin-bottom: 30px;
+}
+
+/* Estilos de los inputs */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column; /* Asegura que los inputs se alineen verticalmente */
+}
+
+input {
+    width: 100%; /* Todos los inputs ocuparán el 100% del contenedor */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+/* Estilo del botón */
+button {
+    width: 100%; /* Asegura que el botón sea del mismo ancho que los inputs */
+    padding: 10px;
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1d6ff4;
+}
+
+
