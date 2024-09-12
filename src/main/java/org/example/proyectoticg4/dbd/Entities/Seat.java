@@ -1,67 +1,53 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.*;
-import org.example.proyectoticg4.dbd.Entities.Hall;
 
 @Entity
-@Table(name = "seats")
 public class Seat {
 
     @EmbeddedId
     private SeatId id;
 
     @ManyToOne
-    @MapsId("hallNumber")
     @JoinColumns({
-            @JoinColumn(name = "hall_number", referencedColumnName = "h_number"),
-            @JoinColumn(name = "hall_cinema_number", referencedColumnName = "cinema_number")
+            @JoinColumn(name = "hall_number", referencedColumnName = "hNumber", insertable = false, updatable = false),
+            @JoinColumn(name = "hall_cinema_number", referencedColumnName = "cinemaNumber", insertable = false, updatable = false)
     })
     private Hall hall;
 
-    @Column(name = "available")
-    private Boolean available;
+    @Enumerated(EnumType.STRING)
+    private Availability available;
 
-    // Getters and Setters
+    public Seat() {
+    }
 
-    @Embeddable
-    public static class SeatId implements java.io.Serializable {
-        private Integer hallNumber;
-        private Integer cinemaNumber;
-        private Integer seatRow;
-        private Integer seatColumn;
+    // Getters and setters
 
-        public Integer getHallNumber() {
-            return hallNumber;
-        }
+    public SeatId getId() {
+        return id;
+    }
 
-        public void setHallNumber(Integer hallNumber) {
-            this.hallNumber = hallNumber;
-        }
+    public void setId(SeatId id) {
+        this.id = id;
+    }
 
-        public Integer getCinemaNumber() {
-            return cinemaNumber;
-        }
+    public Availability getAvailable() {
+        return available;
+    }
 
-        public void setCinemaNumber(Integer cinemaNumber) {
-            this.cinemaNumber = cinemaNumber;
-        }
+    public void setAvailable(Availability available) {
+        this.available = available;
+    }
 
-        public Integer getSeatRow() {
-            return seatRow;
-        }
+    public Hall getHall() {
+        return hall;
+    }
 
-        public void setSeatRow(Integer seatRow) {
-            this.seatRow = seatRow;
-        }
+    public void setHall(Hall hall) {
+        this.hall = hall;
+    }
 
-        public Integer getSeatColumn() {
-            return seatColumn;
-        }
-
-        public void setSeatColumn(Integer seatColumn) {
-            this.seatColumn = seatColumn;
-        }
-
-        //equals, hashcode
+    public enum Availability {
+        YES, NO
     }
 }

@@ -16,7 +16,7 @@ public class Ticket {
     private Double price;
 
     @Embedded
-    private Seat.SeatId seatId;
+    private SeatId seatId;
 
     public Long getCode() {
         return code;
@@ -34,11 +34,11 @@ public class Ticket {
         this.price = price;
     }
 
-    public Seat.SeatId getSeatId() {
+    public SeatId getSeatId() {
         return seatId;
     }
 
-    public void setSeatId(Seat.SeatId seatId) {
+    public void setSeatId(SeatId seatId) {
         this.seatId = seatId;
     }
 
