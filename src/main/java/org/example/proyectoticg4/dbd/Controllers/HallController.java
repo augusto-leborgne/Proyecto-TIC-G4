@@ -1,4 +1,4 @@
-package org.example.proyectoticg4.dbd.controllers;
+package org.example.proyectoticg4.dbd.Controllers;
 
 import org.example.proyectoticg4.dbd.Entities.Hall;
 import org.example.proyectoticg4.dbd.Repositories.HallRepository;
