@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/halls")
+@RequestMapping("/api/halls")
 public class HallController {
 
     private final HallService hallService;
