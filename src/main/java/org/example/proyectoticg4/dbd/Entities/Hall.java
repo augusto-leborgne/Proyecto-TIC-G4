@@ -1,26 +1,27 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.*;
-import org.example.proyectoticg4.dbd.Entities.Cinema;
-import org.example.proyectoticg4.dbd.Entities.Seat;
-
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "halls")
 public class Hall {
 
     @EmbeddedId
-    private HallId id;
+    private HallId id;  // Composite primary key
 
     @ManyToOne
-    @MapsId("cinemaNumber")
-    @JoinColumn(name = "cinema_number")
+    @MapsId("cinemaNumber") // Maps cinemaNumber in HallId to the Cinema entity
+    @JoinColumn(name = "cinemaNumber", referencedColumnName = "ci_number", insertable = false, updatable = false)
     private Cinema cinema;
 
-    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Seat> seats;
+    @OneToMany(mappedBy = "hall")
+    private List<Seat> seats;  // Relationship with Seat entity
 
+    @Column(name = "capacity")
+    private Integer capacity;  // Optional attribute if the hall has a capacity field
+
+    // Getters and Setters
     public HallId getId() {
         return id;
     }
@@ -37,39 +38,20 @@ public class Hall {
         this.cinema = cinema;
     }
 
-    public Set<Seat> getSeats() {
+    public List<Seat> getSeats() {
         return seats;
     }
 
-    public void setSeats(Set<Seat> seats) {
+    public void setSeats(List<Seat> seats) {
         this.seats = seats;
     }
 
-    @Embeddable
-    public static class HallId implements java.io.Serializable {
-        private Integer hNumber;
-        private Integer cinemaNumber;
-
-        public void setHNumber(Integer integer) {
-            this.hNumber = integer;
-        }
-
-        public Integer gethNumber() {
-            return hNumber;
-        }
-
-        public void sethNumber(Integer hNumber) {
-            this.hNumber = hNumber;
-        }
-
-        public Integer getCinemaNumber() {
-            return cinemaNumber;
-        }
-
-        public void setCinemaNumber(Integer cinemaNumber) {
-            this.cinemaNumber = cinemaNumber;
-        }
-
-        // Equals, hashcode
+    public Integer getCapacity() {
+        return capacity;
     }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
 }

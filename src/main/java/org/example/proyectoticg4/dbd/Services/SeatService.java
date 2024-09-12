@@ -1,6 +1,7 @@
 package org.example.proyectoticg4.dbd.Services;
 
 import org.example.proyectoticg4.dbd.Entities.Seat;
+import org.example.proyectoticg4.dbd.Entities.SeatId;
 import org.example.proyectoticg4.dbd.Repositories.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,15 @@ public class SeatService {
         return seatRepository.findAll();
     }
 
-    public Optional<Seat> getSeatById(Seat.SeatId seatId) {
-        return seatRepository.findById(seatId);
+    public Optional<Seat> getSeatById(SeatId id) {
+        return seatRepository.findById(id);
     }
 
     public Seat saveSeat(Seat seat) {
         return seatRepository.save(seat);
     }
 
-    public void deleteSeat(Seat.SeatId seatId) {
-        seatRepository.deleteById(seatId);
+    public void deleteSeat(SeatId id) {
+        seatRepository.deleteById(id);
     }
 }

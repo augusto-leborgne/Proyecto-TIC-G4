@@ -1,12 +1,15 @@
 package org.example.proyectoticg4.dbd.Repositories;
 
 import org.example.proyectoticg4.dbd.Entities.Hall;
+import org.example.proyectoticg4.dbd.Entities.HallId;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
-@Repository
-public interface HallRepository extends JpaRepository<Hall, Hall.HallId> {
-    Optional<Hall> findByHallNumberAndCinemaNumber(int hallNumber, int cinemaNumber);
-    }
+
+public interface HallRepository extends JpaRepository<Hall, HallId> {
+
+    // Custom query to find Hall by HallId
+    @Query("SELECT h FROM Hall h WHERE h.id = :id")
+    Optional<Hall> findByHallId(HallId id);
+}
