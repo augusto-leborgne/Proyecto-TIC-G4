@@ -19,7 +19,7 @@ public class Cinema {
     @Column(name = "halls")
     private Integer halls;
 
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Hall> hallSet;
 
     public String getNeighborhood() {
