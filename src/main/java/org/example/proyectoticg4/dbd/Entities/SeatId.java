@@ -11,8 +11,8 @@ public class SeatId implements Serializable {
     @Column(name = "hall_number")
 
     private int hallNumber;
-    @Column(name = "hall_cinema_number")
-    private int hallCinemaNumber;
+    @Column(name = "cinema_number")
+    private int cinemaNumber;
     @Column(name = "seat_column")
 
     private int seatColumn;
@@ -23,9 +23,9 @@ public class SeatId implements Serializable {
     public SeatId() {
     }
 
-    public SeatId(int hallNumber, int hallCinemaNumber, int seatColumn, int seatRow) {
+    public SeatId(int hallNumber, int cinemaNumber, int seatColumn, int seatRow) {
         this.hallNumber = hallNumber;
-        this.hallCinemaNumber = hallCinemaNumber;
+        this.cinemaNumber = cinemaNumber;
         this.seatColumn = seatColumn;
         this.seatRow = seatRow;
     }
@@ -40,12 +40,12 @@ public class SeatId implements Serializable {
         this.hallNumber = hallNumber;
     }
 
-    public int getHallCinemaNumber() {
-        return hallCinemaNumber;
+    public int getcinemaNumber() {
+        return cinemaNumber;
     }
 
-    public void setHallCinemaNumber(int hallCinemaNumber) {
-        this.hallCinemaNumber = hallCinemaNumber;
+    public void setcinemaNumber(int cinemaNumber) {
+        this.cinemaNumber = cinemaNumber;
     }
 
     public int getSeatColumn() {
@@ -70,13 +70,13 @@ public class SeatId implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         SeatId seatId = (SeatId) o;
         return hallNumber == seatId.hallNumber &&
-                hallCinemaNumber == seatId.hallCinemaNumber &&
+                cinemaNumber == seatId.cinemaNumber &&
                 seatColumn == seatId.seatColumn &&
                 seatRow == seatId.seatRow;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(hallNumber, hallCinemaNumber, seatColumn, seatRow);
+        return Objects.hash(hallNumber, cinemaNumber, seatColumn, seatRow);
     }
 }

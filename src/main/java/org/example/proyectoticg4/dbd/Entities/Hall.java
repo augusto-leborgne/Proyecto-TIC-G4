@@ -1,5 +1,7 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -8,13 +10,15 @@ import java.util.List;
 public class Hall {
 
     @EmbeddedId
-    private HallId id;  // Composite primary key
+    private HallId hallId;  // Composite primary key
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("cinemaNumber") // Maps cinemaNumber in HallId to the Cinema entity
     @JoinColumn(name = "cinemaNumber", referencedColumnName = "ci_number", insertable = false, updatable = false)
     private Cinema cinema;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hall")
     private List<Seat> seats;  // Relationship with Seat entity
 
@@ -22,12 +26,12 @@ public class Hall {
     private Integer capacity;  // Optional attribute if the hall has a capacity field
 
     // Getters and Setters
-    public HallId getId() {
-        return id;
+    public HallId getHallId() {
+        return hallId;
     }
 
-    public void setId(HallId id) {
-        this.id = id;
+    public void setHallId(HallId id) {
+        this.hallId = id;
     }
 
     public Cinema getCinema() {

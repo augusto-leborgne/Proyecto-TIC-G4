@@ -1,8 +1,11 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.example.proyectoticg4.dbd.Entities.Hall;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,8 +22,9 @@ public class Cinema {
     @Column(name = "halls")
     private Integer halls;
 
-    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Hall> hallSet;
+    @JsonIgnore
+    @OneToMany(mappedBy = "cinema", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Hall> hallSet;
 
     public String getNeighborhood() {
         return neighborhood;
@@ -28,6 +32,7 @@ public class Cinema {
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
     }
+
     public Integer getCiNumber() {
         return ciNumber;
     }
@@ -40,7 +45,7 @@ public class Cinema {
     public void setHalls(Integer halls) {
         this.halls = halls;
     }
-    public Set<Hall> getHallSet() {
+    public List<Hall> getHallSet() {
         return hallSet;
     }
 }

@@ -22,12 +22,12 @@ public class SeatController {
         return seatService.getAllSeats();
     }
 
-    @GetMapping("/{hallNumber}/{hallCinemaNumber}/{seatColumn}/{seatRow}")
+    @GetMapping("/{hallNumber}/{cinemaNumber}/{seatColumn}/{seatRow}")
     public ResponseEntity<Seat> getSeatById(@PathVariable int hallNumber,
-                                            @PathVariable int hallCinemaNumber,
+                                            @PathVariable int cinemaNumber,
                                             @PathVariable int seatColumn,
                                             @PathVariable int seatRow) {
-        SeatId seatId = new SeatId(hallNumber, hallCinemaNumber, seatColumn, seatRow);
+        SeatId seatId = new SeatId(hallNumber, cinemaNumber, seatColumn, seatRow);
         Optional<Seat> seat = seatService.getSeatById(seatId);
         return seat.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -37,12 +37,12 @@ public class SeatController {
         return seatService.saveSeat(seat);
     }
 
-    @DeleteMapping("/{hallNumber}/{hallCinemaNumber}/{seatColumn}/{seatRow}")
+    @DeleteMapping("/{hallNumber}/{cinemaNumber}/{seatColumn}/{seatRow}")
     public ResponseEntity<Void> deleteSeat(@PathVariable int hallNumber,
-                                           @PathVariable int hallCinemaNumber,
+                                           @PathVariable int cinemaNumber,
                                            @PathVariable int seatColumn,
                                            @PathVariable int seatRow) {
-        SeatId seatId = new SeatId(hallNumber, hallCinemaNumber, seatColumn, seatRow);
+        SeatId seatId = new SeatId(hallNumber, cinemaNumber, seatColumn, seatRow);
         seatService.deleteSeat(seatId);
         return ResponseEntity.noContent().build();
     }

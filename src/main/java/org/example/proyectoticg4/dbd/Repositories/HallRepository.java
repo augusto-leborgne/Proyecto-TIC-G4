@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface HallRepository extends JpaRepository<Hall, HallId> {
 
     // Custom query to find Hall by HallId
-    @Query("SELECT h FROM Hall h WHERE h.id = :id")
+    @Query("SELECT h FROM Hall h WHERE h.hallId = :id")
     Optional<Hall> findByHallId(HallId id);
 }

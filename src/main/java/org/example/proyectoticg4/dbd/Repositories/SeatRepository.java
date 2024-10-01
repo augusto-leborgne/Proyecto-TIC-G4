@@ -12,7 +12,4 @@ import java.util.Optional;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, SeatId> {
-    // Custom query to find Hall by HallId
-    @Query("SELECT h FROM Hall h WHERE h.id = :id")
-    Optional<Hall> findByHallId(HallId id);
 }
