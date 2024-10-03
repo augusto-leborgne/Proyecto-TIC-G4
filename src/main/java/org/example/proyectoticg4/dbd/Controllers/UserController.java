@@ -26,10 +26,32 @@ public class UserController {
         Optional<User> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+//    @PreAuthorize("permitAll()")
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody User user) {
+        if (userService.checkIfUserExists(user.getuserId())){
+            return ResponseEntity.badRequest().body("User with this username or email already exists");
+        }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+        userService.registerUser(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
+
+//    @PreAuthorize("permitAll()")
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        Optional<User> userOptional = userService.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (userService.verifyPassword(password, user.getPassword())) {
+                return ResponseEntity.ok("Login successful");
+            } else {
+                return ResponseEntity.status(401).body("Invalid credentials");
+            }
+        } else {
+            return ResponseEntity.status(404).body("User not found");
+        }
     }
 
     @DeleteMapping("/{id}")

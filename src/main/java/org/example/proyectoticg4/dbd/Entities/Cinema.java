@@ -1,12 +1,9 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.example.proyectoticg4.dbd.Entities.Hall;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "cinemas")

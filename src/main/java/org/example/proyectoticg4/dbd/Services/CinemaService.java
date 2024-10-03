@@ -1,11 +1,10 @@
 package org.example.proyectoticg4.dbd.Services;
 
 import org.example.proyectoticg4.dbd.Entities.Cinema;
-import org.example.proyectoticg4.dbd.Repositories.CinemaRepository;
 import org.example.proyectoticg4.dbd.Exceptions.ResourceNotFoundException;
+import org.example.proyectoticg4.dbd.Repositories.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.*;
-import org.example.proyectoticg4.dbd.Entities.Seat;
 
 @Entity
 @Table(name = "tickets")

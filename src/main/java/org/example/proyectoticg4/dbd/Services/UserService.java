@@ -3,6 +3,7 @@ package org.example.proyectoticg4.dbd.Services;
 import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,26 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public void registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUserId(username);
+    }
+
+    public boolean checkIfUserExists(String username) {
+        return userRepository.findByUserId(username).isPresent();
+    }
+
+    public boolean verifyPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();

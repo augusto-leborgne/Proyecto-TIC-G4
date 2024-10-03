@@ -4,6 +4,7 @@ import org.example.proyectoticg4.dbd.Entities.Hall;
 import org.example.proyectoticg4.dbd.Entities.HallId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
 import java.util.Optional;
 
 
