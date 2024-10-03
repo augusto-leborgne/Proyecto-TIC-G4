@@ -7,34 +7,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tickets")
+@RequestMapping("/tickets")
 public class TicketController {
 
-    @Autowired
-    private TicketService ticketService;
+    private final TicketService ticketService;
 
-    @GetMapping
-    public List<Ticket> getAllTickets() {
-        return ticketService.getAllTickets();
+    @Autowired
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
-    @GetMapping("/{code}")
-    public ResponseEntity<Ticket> getTicketById(@PathVariable Long code) {
-        Optional<Ticket> ticket = ticketService.getTicketById(code);
-        return ticket.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping
+    public ResponseEntity<List<Ticket>> getAllTickets() {
+        List<Ticket> tickets = ticketService.getAllTickets();
+        return ResponseEntity.ok(tickets);
     }
 
     @PostMapping
-    public Ticket createTicket(@RequestBody Ticket ticket) {
-        return ticketService.saveTicket(ticket);
-    }
+    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
+        // Ensure that the user is set in the ticket object
+        if (ticket.getUser() == null || ticket.getUser().getUserId() == null) {
+            return ResponseEntity.badRequest().body(null); // Handle the case where user is not provided
+        }
 
-    @DeleteMapping("/{code}")
-    public ResponseEntity<Void> deleteTicket(@PathVariable Long code) {
-        ticketService.deleteTicket(code);
-        return ResponseEntity.noContent().build();
+        Ticket createdTicket = ticketService.createTicket(ticket);
+        return ResponseEntity.ok(createdTicket);
     }
 }

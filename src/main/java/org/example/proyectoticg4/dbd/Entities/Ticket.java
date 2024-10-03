@@ -9,20 +9,54 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "t_code")
-    private Long code;
+    private Integer ticketCode; // Unique ticket code
 
-    @Column(name = "price")
-    private Double price;
+    @ManyToOne
+    @JoinColumn(name = "show_cod", nullable = false)
+    private Show show; // Reference to the show
 
-    @Embedded
-    private SeatId seatId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Reference to the user who purchased the ticket
 
-    public Long getCode() {
-        return code;
+    @Column(name = "price", nullable = false)
+    private Double price; // Price of the ticket
+
+    @Column(name = "hall_number", nullable = false)
+    private Integer hallNumber; // Reference to the hall's seat number
+
+    @Column(name = "cinema_number", nullable = false)
+    private Integer cinemaNumber; // Reference to the cinema's number for the seat
+
+    @Column(name = "seat_column", nullable = false)
+    private Integer seatColumn; // Reference to the seat column
+
+    @Column(name = "seat_row", nullable = false)
+    private Integer seatRow; // Reference to the seat row
+
+    // Getters and Setters
+    public Integer getTicketCode() {
+        return ticketCode;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
+    public void setTicketCode(Integer ticketCode) {
+        this.ticketCode = ticketCode;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public void setShow(Show show) {
+        this.show = show;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Double getPrice() {
@@ -33,12 +67,35 @@ public class Ticket {
         this.price = price;
     }
 
-    public SeatId getSeatId() {
-        return seatId;
+    public Integer getHallNumber() {
+        return hallNumber;
     }
 
-    public void setSeatId(SeatId seatId) {
-        this.seatId = seatId;
+    public void setHallNumber(Integer hallNumber) {
+        this.hallNumber = hallNumber;
     }
 
+    public Integer getCinemaNumber() {
+        return cinemaNumber;
+    }
+
+    public void setCinemaNumber(Integer cinemaNumber) {
+        this.cinemaNumber = cinemaNumber;
+    }
+
+    public Integer getSeatColumn() {
+        return seatColumn;
+    }
+
+    public void setSeatColumn(Integer seatColumn) {
+        this.seatColumn = seatColumn;
+    }
+
+    public Integer getSeatRow() {
+        return seatRow;
+    }
+
+    public void setSeatRow(Integer seatRow) {
+        this.seatRow = seatRow;
+    }
 }

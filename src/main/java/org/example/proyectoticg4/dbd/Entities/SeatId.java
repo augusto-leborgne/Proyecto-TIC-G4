@@ -10,15 +10,12 @@ import java.util.Objects;
 public class SeatId implements Serializable {
 
     @Column(name = "hall_number")
-
     private int hallNumber;
     @Column(name = "cinema_number")
     private int cinemaNumber;
     @Column(name = "seat_column")
-
     private int seatColumn;
     @Column(name = "seat_row")
-
     private int seatRow;
 
     public SeatId() {

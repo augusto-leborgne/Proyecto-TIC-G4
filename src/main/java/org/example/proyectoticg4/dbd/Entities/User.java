@@ -20,11 +20,11 @@ public class  User {
     private String password;
 
 
-    public String getuserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setuserId(String id) {
+    public void setUserId(String id) {
         this.userId = id;
     }
 

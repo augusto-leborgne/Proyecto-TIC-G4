@@ -6,27 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TicketService {
 
+    private final TicketRepository ticketRepository;
+
     @Autowired
-    private TicketRepository ticketRepository;
+    public TicketService(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
+    }
 
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
     }
 
-    public Optional<Ticket> getTicketById(Long code) {
-        return ticketRepository.findById(code);
-    }
-
-    public Ticket saveTicket(Ticket ticket) {
+    public Ticket createTicket(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
 
-    public void deleteTicket(Long code) {
-        ticketRepository.deleteById(code);
-    }
+    // Additional methods can be added here (like deleting a ticket, finding by show, etc.)
 }
