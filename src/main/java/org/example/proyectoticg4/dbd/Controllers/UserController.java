@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         if (userService.checkIfUserExists(user.getUserId())){
-            return ResponseEntity.badRequest().body("User with this username or email already exists");
+            return ResponseEntity.badRequest().body("User with this email already exists");
         }
 
         userService.registerUser(user);
@@ -39,8 +39,8 @@ public class UserController {
 
 //    @PreAuthorize("permitAll()")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        Optional<User> userOptional = userService.findByUsername(username);
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+        Optional<User> userOptional = userService.getUserById(email);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();

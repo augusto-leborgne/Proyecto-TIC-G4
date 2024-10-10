@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "users")
 public class  User {
@@ -13,11 +15,20 @@ public class  User {
     @Column(name = "id")
     private String userId;
 
-    @Column(name = "age")
-    private Integer age;
-
     @Column(name = "enc_password")
     private String password;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "phone")
+    private int phone;
+
+    @Column(name = "birthDate")
+    private Date birthDate;
 
 
     public String getUserId() {
@@ -28,14 +39,6 @@ public class  User {
         this.userId = id;
     }
 
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -44,4 +47,35 @@ public class  User {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 }

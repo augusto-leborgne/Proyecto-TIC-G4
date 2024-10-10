@@ -19,20 +19,19 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public void registerUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUserId(username);
+    public boolean checkIfUserExists(String email) {
+        return userRepository.findByUserId(email).isPresent();
     }
 
-    public boolean checkIfUserExists(String username) {
-        return userRepository.findByUserId(username).isPresent();
-    }
-
-    public boolean verifyPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+    public boolean verifyPassword(String password1, String password2) {
+        if (password1.equals(password2)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<User> getAllUsers() {
