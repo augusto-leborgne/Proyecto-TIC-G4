@@ -18,15 +18,14 @@ public class Movie {
     @Column(name = "minimum_age")
     private Integer minimumAge;
 
-    @Lob  // This marks the image field as a BLOB in the database
-    @Column(name = "image", columnDefinition = "BYTEA")
+    @Column(name = "image", columnDefinition = "bytea")
     private byte[] image;  // To store the image as binary data
 
-    public String getmovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
-    public void setmovieId(String name) {
+    public void setMovieId(String name) {
         this.movieId = name;
     }
 
