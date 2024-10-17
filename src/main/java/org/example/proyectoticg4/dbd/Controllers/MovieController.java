@@ -33,25 +33,13 @@ public class MovieController {
 
     // Add a new movie with a Base64 encoded image
     @PostMapping("/upload")
-    public ResponseEntity<String> createMovie(@RequestBody Movie movieDTO) {
+    public ResponseEntity<String> createMovie(@RequestBody Movie movie) {
         try {
-            // Decode the Base64 encoded image
-            byte[] decodedImage = Base64.getDecoder().decode(movieDTO.getImage());
-
-            // Create a new Movie entity and set its fields
-            Movie movie = new Movie();
-            movie.setmovieId(movieDTO.getmovieId());
-            movie.setDuration(movieDTO.getDuration());
-            movie.setDirector(movieDTO.getDirector());
-            movie.setMinimumAge(movieDTO.getMinimumAge());
-            movie.setImage(decodedImage);  // Set the decoded image
-
-            // Save the movie
             movieService.saveMovie(movie);
             return ResponseEntity.ok("Movie uploaded successfully with image");
 
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Failed to decode Base64 image");
+            return ResponseEntity.badRequest().body("Failed to upload movie");
         }
     }
 

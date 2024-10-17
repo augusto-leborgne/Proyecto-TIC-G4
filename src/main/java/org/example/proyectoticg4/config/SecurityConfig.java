@@ -12,7 +12,7 @@ public class SecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/**").permitAll();
+                .requestMatchers("/**").permitAll();
 
         return http.build();
     }
