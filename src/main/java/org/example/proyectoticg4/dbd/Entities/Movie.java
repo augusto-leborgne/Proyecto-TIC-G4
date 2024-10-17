@@ -12,6 +12,7 @@ public class Movie {
 
     @Column(name = "duration")
     private Integer duration;
+
     @Column(name = "director")
     private String director;
 
