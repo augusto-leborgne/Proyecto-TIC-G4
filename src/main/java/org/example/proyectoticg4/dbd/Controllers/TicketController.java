@@ -28,7 +28,7 @@ public class TicketController {
     @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
         // Ensure that the user is set in the ticket object
-        if (ticket.getUserId() == null){
+        if (ticket.getUser() == null || ticket.getUser().getUserId() == null){
             return ResponseEntity.badRequest().body(null); // Handle the case where user is not provided
         }
 

@@ -49,5 +49,67 @@ public class Ticket {
         this.reservation = reservation;
     }
 
-    // other getters and setters...
+    public Long gettCode() {
+        return tCode;
+    }
+
+    public void settCode(Long tCode) {
+        this.tCode = tCode;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public void setShow(Show show) {
+        this.show = show;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Integer getHallNumber() {
+        return hallNumber;
+    }
+
+    public void setHallNumber(Integer hallNumber) {
+        this.hallNumber = hallNumber;
+    }
+
+    public Integer getCinemaNumber() {
+        return cinemaNumber;
+    }
+
+    public void setCinemaNumber(Integer cinemaNumber) {
+        this.cinemaNumber = cinemaNumber;
+    }
+
+    public Integer getSeatColumn() {
+        return seatColumn;
+    }
+
+    public void setSeatColumn(Integer seatColumn) {
+        this.seatColumn = seatColumn;
+    }
+
+    public Integer getSeatRow() {
+        return seatRow;
+    }
+
+    public void setSeatRow(Integer seatRow) {
+        this.seatRow = seatRow;
+    }
 }
