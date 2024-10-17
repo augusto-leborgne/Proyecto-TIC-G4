@@ -1,11 +1,13 @@
 package org.example.proyectoticg4.dbd.Controllers;
 
+
 import org.example.proyectoticg4.dbd.Entities.Movie;
 import org.example.proyectoticg4.dbd.Services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,10 +31,28 @@ public class MovieController {
         return movie.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Add a new movie
-    @PostMapping
-    public Movie createMovie(@RequestBody Movie movie) {
-        return movieService.saveMovie(movie);
+    // Add a new movie with a Base64 encoded image
+    @PostMapping("/upload")
+    public ResponseEntity<String> createMovie(@RequestBody Movie movieDTO) {
+        try {
+            // Decode the Base64 encoded image
+            byte[] decodedImage = Base64.getDecoder().decode(movieDTO.getImage());
+
+            // Create a new Movie entity and set its fields
+            Movie movie = new Movie();
+            movie.setmovieId(movieDTO.getmovieId());
+            movie.setDuration(movieDTO.getDuration());
+            movie.setDirector(movieDTO.getDirector());
+            movie.setMinimumAge(movieDTO.getMinimumAge());
+            movie.setImage(decodedImage);  // Set the decoded image
+
+            // Save the movie
+            movieService.saveMovie(movie);
+            return ResponseEntity.ok("Movie uploaded successfully with image");
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Failed to decode Base64 image");
+        }
     }
 
     // Update an existing movie

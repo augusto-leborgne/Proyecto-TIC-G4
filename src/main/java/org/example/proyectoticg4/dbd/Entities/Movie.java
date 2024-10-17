@@ -1,9 +1,6 @@
 package org.example.proyectoticg4.dbd.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "movies")
@@ -20,6 +17,10 @@ public class Movie {
 
     @Column(name = "minimum_age")
     private Integer minimumAge;
+
+    @Lob  // This marks the image field as a BLOB in the database
+    @Column(name = "image", columnDefinition = "BYTEA")
+    private byte[] image;  // To store the image as binary data
 
     public String getmovieId() {
         return movieId;
@@ -53,5 +54,7 @@ public class Movie {
         this.minimumAge = minimumAge;
     }
 
-    // Getters and Setters
+    public byte[] getImage() { return image; }
+
+    public void setImage(byte[] image) { this.image = image; }
 }
