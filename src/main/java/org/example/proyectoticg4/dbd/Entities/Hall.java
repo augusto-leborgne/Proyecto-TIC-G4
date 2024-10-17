@@ -22,9 +22,6 @@ public class Hall {
     @OneToMany(mappedBy = "hall")
     private List<Seat> seats;  // Relationship with Seat entity
 
-    @Column(name = "capacity")
-    private Integer capacity;  // Optional attribute if the hall has a capacity field
-
     // Getters and Setters
     public HallId getHallId() {
         return hallId;
@@ -48,14 +45,6 @@ public class Hall {
 
     public void setSeats(List<Seat> seats) {
         this.seats = seats;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
     }
 
 }
