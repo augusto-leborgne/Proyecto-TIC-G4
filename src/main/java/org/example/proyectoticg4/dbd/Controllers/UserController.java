@@ -39,8 +39,8 @@ public class UserController {
 
 //    @PreAuthorize("permitAll()")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-        Optional<User> userOptional = userService.getUserById(email);
+    public ResponseEntity<String> login(@RequestParam String userId, @RequestParam String password) {
+        Optional<User> userOptional = userService.getUserById(userId);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
