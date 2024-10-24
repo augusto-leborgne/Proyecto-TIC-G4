@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/shows")
@@ -36,17 +34,20 @@ public class ShowController {
     }
 
     @GetMapping("/cinema/{cinemaNumber}")
-    public ResponseEntity<List<Show>> getShowsByCinemaNumber(@PathVariable int cinemaNumber) {
+    public ResponseEntity<List<Movie>> getMoviesByCinemaNumber(@PathVariable int cinemaNumber) {
+        List<Show> shows = showService.findShowsByCinemaNumber(cinemaNumber);
 
-        List<Show> shows = showService.findMoviesByCinemaNumber(cinemaNumber);
         if (shows.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        List<String> moviesIds = new ArrayList<>();
+
+        List<Movie> moviesList = new ArrayList<>();
+
         for (Show show : shows) {
-            moviesIds.add(show.getMovie().getMovieId());
+            moviesList.add(show.getMovie());
         }
-        return ResponseEntity.ok(shows);
+
+        return ResponseEntity.ok(moviesList);
     }
 
     @PostMapping

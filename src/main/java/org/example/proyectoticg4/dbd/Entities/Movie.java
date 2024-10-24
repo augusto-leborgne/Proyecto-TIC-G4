@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,6 +20,7 @@ public class Movie {
     @Column(name = "minimum_age")
     private Integer minimumAge;
 
+    @JsonIgnore
     @Column(name = "image", columnDefinition = "bytea")
     private byte[] image;  // To store the image as binary data
 

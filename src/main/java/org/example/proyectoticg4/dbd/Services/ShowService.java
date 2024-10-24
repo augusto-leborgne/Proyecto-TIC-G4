@@ -21,7 +21,7 @@ public class ShowService {
         return showRepository.findAll();
     }
 
-    public List<Show> findMoviesByCinemaNumber(int cinemaNumber) {
+    public List<Show> findShowsByCinemaNumber(int cinemaNumber) {
         return showRepository.findShowsByCinemaNumber(cinemaNumber);
     }
 
