@@ -21,7 +21,15 @@ public class ShowService {
         return showRepository.findAll();
     }
 
+    public List<Show> findMoviesByCinemaNumber(int cinemaNumber) {
+        return showRepository.findShowsByCinemaNumber(cinemaNumber);
+    }
+
     public Show createShow(Show show) {
         return showRepository.save(show);
+    }
+
+    public void deleteShow(Integer showId) {
+        showRepository.deleteById(showId);
     }
 }
