@@ -24,17 +24,6 @@ public class MovieController {
         return movieService.getAllMovies();
     }
 
-    @GetMapping("/image/{movieId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String movieId) {
-        Optional<Movie> movie = movieService.getMovieById(movieId);
-        if (movie.isPresent()) {
-            byte[] image = Base64.getDecoder().decode(movie.get().getImage());
-            return ResponseEntity.ok(image);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     // Get a movie by ID
     @GetMapping("/{movieId}")
     public ResponseEntity<Movie> getMovieById(@PathVariable String movieId) {
