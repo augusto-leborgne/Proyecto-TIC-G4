@@ -59,9 +59,7 @@ public class ShowController {
         }
 
         // Fetch the hall from the database using its cinemaNumber and hallNumber
-        Optional<Hall> existingHall = hallService.getHallById(
-                show.getHall().getHallId()
-        );
+        Optional<Hall> existingHall = hallService.getHallById(show.getHall().getHallId());
         if (existingHall.isEmpty()) {
             return ResponseEntity.badRequest().body("Hall not found");
         }
@@ -70,9 +68,10 @@ public class ShowController {
         show.setMovie(existingMovie.get());
         show.setHall(existingHall.get());
 
-        // Save the show
-        Show savedShow = showService.createShow(show);
-        return ResponseEntity.ok(savedShow.toString());
+        // Save the show with seat availability
+        Show savedShow = showService.createShowWithAvailableSeats(existingMovie.get(), existingHall.get(), show.getShowTime());
+
+        return ResponseEntity.ok("Show created with ID: " + savedShow.getShowCode());
     }
 
     @DeleteMapping("/{id}")
