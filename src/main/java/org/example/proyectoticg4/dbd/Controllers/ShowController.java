@@ -52,26 +52,31 @@ public class ShowController {
 
     @PostMapping
     public ResponseEntity<String> createShow(@RequestBody Show show) {
-        // Fetch the movie from the database by its name
-        Optional<Movie> existingMovie = movieService.getMovieById(show.getMovie().getMovieId());
-        if (existingMovie.isEmpty()) {
-            return ResponseEntity.badRequest().body("Movie not found");
+        try {
+            // Fetch the movie from the database by its ID
+            Optional<Movie> existingMovie = movieService.getMovieById(show.getMovie().getMovieId());
+            if (existingMovie.isEmpty()) {
+                return ResponseEntity.badRequest().body("Movie not found");
+            }
+
+            // Fetch the hall from the database by its ID
+            Optional<Hall> existingHall = hallService.getHallById(show.getHall().getHallId());
+            if (existingHall.isEmpty()) {
+                return ResponseEntity.badRequest().body("Hall not found");
+            }
+
+            // Set the fetched movie and hall in the show object
+            show.setMovie(existingMovie.get());
+            show.setHall(existingHall.get());
+
+            // Create show with available seats
+            Show savedShow = showService.createShowWithAvailableSeats(existingMovie.get(), existingHall.get(), show.getShowTime());
+
+            return ResponseEntity.ok("Show created with ID: " + savedShow.getShowCode());
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the stack trace for debugging
+            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
         }
-
-        // Fetch the hall from the database using its cinemaNumber and hallNumber
-        Optional<Hall> existingHall = hallService.getHallById(show.getHall().getHallId());
-        if (existingHall.isEmpty()) {
-            return ResponseEntity.badRequest().body("Hall not found");
-        }
-
-        // Set the existing movie and hall to the show object
-        show.setMovie(existingMovie.get());
-        show.setHall(existingHall.get());
-
-        // Save the show with seat availability
-        Show savedShow = showService.createShowWithAvailableSeats(existingMovie.get(), existingHall.get(), show.getShowTime());
-
-        return ResponseEntity.ok("Show created with ID: " + savedShow.getShowCode());
     }
 
     @DeleteMapping("/{id}")
