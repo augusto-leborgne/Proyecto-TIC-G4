@@ -30,37 +30,34 @@ public class ShowService {
 
     @Transactional
     public Show createShowWithAvailableSeats(Movie movie, Hall hall, LocalDateTime showTime) {
-        // Step 1: Create a new Show instance
-        Show show = new Show();
-        show.setMovie(movie);
-        show.setHall(hall);
-        show.setShowTime(showTime);
+        try {
+            Show show = new Show();
+            show.setMovie(movie);
+            show.setHall(hall);
+            show.setShowTime(showTime);
 
-        // Step 2: Save the Show to get an ID
-        Show savedShow = showRepository.save(show);
+            Show savedShow = showRepository.save(show);
+            List<Seat> seatsInHall = hall.getSeats(); // Ensure this gets the correct seats for the hall
 
-        // Step 3: Fetch seats in the given hall
-        List<Seat> seatsInHall = seatRepository.findByHall(hall);
+            List<ShowSeatAvailability> showSeatAvailabilities = seatsInHall.stream()
+                    .map(seat -> {
+                        ShowSeatAvailability seatAvailability = new ShowSeatAvailability();
+                        seatAvailability.setId(new ShowSeatAvailabilityId(savedShow.getShowCode(), seat.getseatId()));
+                        seatAvailability.setShow(savedShow); // Ensure this references the correct show
+                        seatAvailability.setAvailable(true);
+                        return seatAvailability;
+                    })
+                    .collect(Collectors.toList());
 
-        // Step 4: For each seat, create a ShowSeatAvailability and set available to true
-        List<ShowSeatAvailability> showSeatAvailabilities = seatsInHall.stream()
-                .map(seat -> {
-                    ShowSeatAvailability seatAvailability = new ShowSeatAvailability();
-                    seatAvailability.setId(new ShowSeatAvailabilityId(savedShow.getShowCode(), seat.getseatId()));
-                    seatAvailability.setShow(savedShow);
-                    seatAvailability.setAvailable(true);  // Default value
-                    return seatAvailability;
-                })
-                .collect(Collectors.toList());
-
-        // Step 5: Save all ShowSeatAvailability records
-        showSeatAvailabilityRepository.saveAll(showSeatAvailabilities);
-
-        // Step 6: Set the list in the show entity (optional)
-        show.setShowSeatAvailabilities(showSeatAvailabilities);
-
-        return show;
+            showSeatAvailabilityRepository.saveAll(showSeatAvailabilities);
+            show.setShowSeatAvailabilities(showSeatAvailabilities);
+            return show;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; // Re-throw to handle in the controller
+        }
     }
+
 
     public List<Show> getAllShows() {
         return showRepository.findAll();
@@ -68,6 +65,10 @@ public class ShowService {
 
     public List<Show> findShowsByCinemaNumber(int cinemaNumber) {
         return showRepository.findShowsByCinemaNumber(cinemaNumber);
+    }
+
+    public List<Show> findShowsByMovieAndCinema(Integer movieId, Integer cinemaNumber) {
+        return showRepository.findByMovieIdAndCinemaNumber(movieId, cinemaNumber);
     }
 
     public void deleteShow(Integer showId) {

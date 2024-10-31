@@ -10,12 +10,11 @@ public class ShowSeatAvailability {
     private ShowSeatAvailabilityId id; // Composite key (show_code, hall_number, cinema_number, seat_column, seat_row)
 
     @ManyToOne
-    @MapsId("showCode")
-    @JoinColumn(name = "show_code", referencedColumnName = "show_cod")
+    @MapsId("showCode") // This maps the showCode in ShowSeatAvailabilityId to the Show
+    @JoinColumn(name = "show_code")
     private Show show;
 
-    @Column(name = "available")
-    private Boolean available;
+    private boolean available;
 
     // Getters and Setters
 

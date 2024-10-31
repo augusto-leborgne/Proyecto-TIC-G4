@@ -3,6 +3,7 @@ package org.example.proyectoticg4.dbd.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,8 +26,8 @@ public class Show {
     })
     private Hall hall;
 
-    @OneToMany(mappedBy = "show")
-    private List<ShowSeatAvailability> showSeatAvailabilities;
+    @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShowSeatAvailability> showSeatAvailabilities = new ArrayList<>();
 
 
     @Column(name = "show_time", nullable = false)

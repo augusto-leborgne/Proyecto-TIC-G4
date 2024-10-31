@@ -20,6 +20,7 @@ public class Movie {
     @Column(name = "minimum_age")
     private Integer minimumAge;
 
+    @JsonIgnore
     @Column(name = "image", columnDefinition = "bytea")
     private byte[] image;  // To store the image as binary data
 

@@ -10,5 +10,4 @@ import java.util.List;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, SeatId> {
-    List<Seat> findByHall(Hall hall);
 }

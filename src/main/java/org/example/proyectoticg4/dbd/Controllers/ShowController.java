@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -48,6 +49,30 @@ public class ShowController {
         }
 
         return ResponseEntity.ok(moviesList);
+    }
+
+    @GetMapping("/showtimes")
+    public ResponseEntity<List<LocalDateTime>> getShowtimesByMovieAndCinema(
+            @RequestParam("movieId") Integer movieId,
+            @RequestParam("cinemaNumber") Integer cinemaNumber) {
+
+        if (movieId == null || cinemaNumber == null) {
+            throw new IllegalArgumentException("Movie ID and Cinema Number must be provided.");
+        }
+        // Fetch shows by movie and cinema
+        List<Show> shows = showService.findShowsByMovieAndCinema(movieId, cinemaNumber);
+
+        // Check if any shows are found
+        if (shows.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Extract showtimes from shows
+        List<LocalDateTime> showtimes = shows.stream()
+                .map(Show::getShowTime)
+                .toList();
+
+        return ResponseEntity.ok(showtimes);
     }
 
     @PostMapping

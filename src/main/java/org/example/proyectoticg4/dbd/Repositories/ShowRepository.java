@@ -9,4 +9,7 @@ import java.util.List;
 public interface ShowRepository extends JpaRepository<Show, Integer> {
     @Query("SELECT s FROM Show s WHERE s.hall.hallId.cinemaNumber = :cinemaNumber")
     List<Show> findShowsByCinemaNumber(int cinemaNumber);
+
+    @Query("SELECT s FROM Show s WHERE s.hall.hallId.cinemaNumber = :cinemaNumber and s.movie.movieId = :movieId")
+    List<Show> findByMovieIdAndCinemaNumber(Integer movieId, Integer cinemaNumber);
 }
