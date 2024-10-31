@@ -1,7 +1,9 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "m_show")
@@ -21,7 +23,11 @@ public class Show {
             @JoinColumn(name = "ci_number", referencedColumnName = "cinemaNumber", nullable = false),
             @JoinColumn(name = "h_number", referencedColumnName = "hNumber", nullable = false)
     })
-    private Hall hall; // Reference to the hall
+    private Hall hall;
+
+    @OneToMany(mappedBy = "show")
+    private List<ShowSeatAvailability> showSeatAvailabilities;
+
 
     @Column(name = "show_time", nullable = false)
     private LocalDateTime showTime; // Time of the show
@@ -37,6 +43,14 @@ public class Show {
 
     public Movie getMovie() {
         return movie;
+    }
+
+    public List<ShowSeatAvailability> getShowSeatAvailabilities() {
+        return showSeatAvailabilities;
+    }
+
+    public void setShowSeatAvailabilities(List<ShowSeatAvailability> showSeatAvailabilities) {
+        this.showSeatAvailabilities = showSeatAvailabilities;
     }
 
     public void setMovie(Movie movie) {

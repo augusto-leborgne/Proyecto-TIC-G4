@@ -20,7 +20,7 @@ public class Hall {
 
     @JsonIgnore
     @OneToMany(mappedBy = "hall")
-    private List<Seat> seats;  // Relationship with Seat entity
+    private List<Seat> seats;
 
     // Getters and Setters
     public HallId getHallId() {

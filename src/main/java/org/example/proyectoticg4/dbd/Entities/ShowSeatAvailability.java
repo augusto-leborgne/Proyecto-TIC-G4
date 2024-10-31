@@ -1,0 +1,46 @@
+package org.example.proyectoticg4.dbd.Entities;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "show_seat_availability")
+public class ShowSeatAvailability {
+
+    @EmbeddedId
+    private ShowSeatAvailabilityId id; // Composite key (show_code, hall_number, cinema_number, seat_column, seat_row)
+
+    @ManyToOne
+    @MapsId("showCode")
+    @JoinColumn(name = "show_code", referencedColumnName = "show_cod")
+    private Show show;
+
+    @Column(name = "available")
+    private Boolean available;
+
+    // Getters and Setters
+
+    public ShowSeatAvailabilityId getId() {
+        return id;
+    }
+
+    public void setId(ShowSeatAvailabilityId id) {
+        this.id = id;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public void setShow(Show show) {
+        this.show = show;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+}
+

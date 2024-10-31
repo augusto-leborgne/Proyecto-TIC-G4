@@ -18,9 +18,6 @@ public class Seat {
     })
     private Hall hall;
 
-    @Column(name = "available")
-    private Boolean available;
-
     public Seat() {
     }
 
@@ -32,14 +29,6 @@ public class Seat {
 
     public void setseatId(SeatId seatId) {
         this.seatId = seatId;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
     }
 
     public Hall getHall() {
