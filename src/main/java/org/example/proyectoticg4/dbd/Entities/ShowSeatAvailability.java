@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,6 +10,7 @@ public class ShowSeatAvailability {
     @EmbeddedId
     private ShowSeatAvailabilityId id; // Composite key (show_code, hall_number, cinema_number, seat_column, seat_row)
 
+    @JsonIgnore
     @ManyToOne
     @MapsId("showCode") // This maps the showCode in ShowSeatAvailabilityId to the Show
     @JoinColumn(name = "show_code")

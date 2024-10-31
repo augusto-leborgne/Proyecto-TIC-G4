@@ -53,7 +53,7 @@ public class ShowController {
 
     @GetMapping("/showtimes")
     public ResponseEntity<List<LocalDateTime>> getShowtimesByMovieAndCinema(
-            @RequestParam("movieId") Integer movieId,
+            @RequestParam("movieId") String movieId,
             @RequestParam("cinemaNumber") Integer cinemaNumber) {
 
         if (movieId == null || cinemaNumber == null) {

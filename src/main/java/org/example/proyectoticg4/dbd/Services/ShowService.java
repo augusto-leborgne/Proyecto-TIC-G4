@@ -1,5 +1,7 @@
 package org.example.proyectoticg4.dbd.Services;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.example.proyectoticg4.dbd.Entities.*;
 import org.example.proyectoticg4.dbd.Repositories.SeatRepository;
@@ -16,6 +18,9 @@ import java.util.stream.Collectors;
 public class ShowService {
 
     private final ShowRepository showRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public ShowService(ShowRepository showRepository) {
@@ -36,22 +41,31 @@ public class ShowService {
             show.setHall(hall);
             show.setShowTime(showTime);
 
+            // Save the show, then detach it to avoid session conflicts
             Show savedShow = showRepository.save(show);
+            entityManager.detach(savedShow);
+
             List<Seat> seatsInHall = hall.getSeats(); // Ensure this gets the correct seats for the hall
 
             List<ShowSeatAvailability> showSeatAvailabilities = seatsInHall.stream()
                     .map(seat -> {
                         ShowSeatAvailability seatAvailability = new ShowSeatAvailability();
-                        seatAvailability.setId(new ShowSeatAvailabilityId(savedShow.getShowCode(), seat.getseatId()));
-                        seatAvailability.setShow(savedShow); // Ensure this references the correct show
+                        ShowSeatAvailabilityId seatAvailabilityId =
+                                new ShowSeatAvailabilityId(savedShow.getShowCode(), seat.getseatId());
+
+                        seatAvailability.setId(seatAvailabilityId);
+                        seatAvailability.setShow(savedShow);
                         seatAvailability.setAvailable(true);
                         return seatAvailability;
                     })
                     .collect(Collectors.toList());
 
+            // Save all ShowSeatAvailability entries at once
             showSeatAvailabilityRepository.saveAll(showSeatAvailabilities);
-            show.setShowSeatAvailabilities(showSeatAvailabilities);
-            return show;
+            showSeatAvailabilityRepository.flush();  // Force flush to write to DB immediately
+
+            savedShow.setShowSeatAvailabilities(showSeatAvailabilities);
+            return savedShow;
         } catch (Exception e) {
             e.printStackTrace();
             throw e; // Re-throw to handle in the controller
@@ -67,7 +81,7 @@ public class ShowService {
         return showRepository.findShowsByCinemaNumber(cinemaNumber);
     }
 
-    public List<Show> findShowsByMovieAndCinema(Integer movieId, Integer cinemaNumber) {
+    public List<Show> findShowsByMovieAndCinema(String movieId, Integer cinemaNumber) {
         return showRepository.findByMovieIdAndCinemaNumber(movieId, cinemaNumber);
     }
 

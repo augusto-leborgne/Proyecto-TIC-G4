@@ -26,12 +26,13 @@ public class Show {
     })
     private Hall hall;
 
+    @Column(name = "show_time", nullable = false)
+    private LocalDateTime showTime; // Time of the show
+
+    @JsonIgnore
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShowSeatAvailability> showSeatAvailabilities = new ArrayList<>();
 
-
-    @Column(name = "show_time", nullable = false)
-    private LocalDateTime showTime; // Time of the show
 
     // Getters and Setters
     public Integer getShowCode() {
