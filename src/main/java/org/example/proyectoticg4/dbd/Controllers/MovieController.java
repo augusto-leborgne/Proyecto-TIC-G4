@@ -69,4 +69,9 @@ public class MovieController {
         movieService.deleteMovie(movieId);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/image")
+    public List<byte[]> getAllImages() {
+        return movieService.getAllImages();
+    }
 }

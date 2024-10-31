@@ -74,4 +74,10 @@ public class MovieService {
         // Return the path or URL of the saved image (can be file URL, or cloud storage URL)
         return filePath.toString();
     }
+
+    public List<byte[]> getAllImages() {
+
+        return movieRepository.findAllImages();
+    }
+
 }
