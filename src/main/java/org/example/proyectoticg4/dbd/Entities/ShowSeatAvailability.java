@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class ShowSeatAvailability {
 
     @EmbeddedId
-    private ShowSeatAvailabilityId id; // Composite key (show_code, hall_number, cinema_number, seat_column, seat_row)
+    private ShowSeatAvailabilityId id; // Composite key (show_code, seat_column, seat_row)
 
     @JsonIgnore
     @ManyToOne

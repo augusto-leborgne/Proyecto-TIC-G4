@@ -3,6 +3,7 @@ package org.example.proyectoticg4.dbd.Controllers;
 import org.example.proyectoticg4.dbd.Entities.Hall;
 import org.example.proyectoticg4.dbd.Entities.Movie;
 import org.example.proyectoticg4.dbd.Entities.Show;
+import org.example.proyectoticg4.dbd.Entities.ShowSeatAvailability;
 import org.example.proyectoticg4.dbd.Services.HallService;
 import org.example.proyectoticg4.dbd.Services.MovieService;
 import org.example.proyectoticg4.dbd.Services.ShowService;
@@ -75,8 +76,8 @@ public class ShowController {
         return ResponseEntity.ok(showtimes);
     }
 
-    @GetMapping("/showCode")
-    public ResponseEntity<Integer> getShowCode(
+    @GetMapping("/seats")
+    public ResponseEntity<List<ShowSeatAvailability>> getShowCode(
             @RequestParam("movieId") String movieId,
             @RequestParam("cinemaNumber") Integer cinemaNumber,
             @RequestParam("showTime") LocalDateTime showTime) {
@@ -85,14 +86,16 @@ public class ShowController {
             throw new IllegalArgumentException("Movie ID, Cinema Number and Show Time must be provided.");
         }
         // Fetch shows by movie, cinema and show time
-        Integer showCode = showService.findShowCode(movieId, cinemaNumber, showTime);
+        List<ShowSeatAvailability> seats = showService.findSeats(movieId, cinemaNumber, showTime);
 
         // Check if any shows are found
-        if (showCode == null) {
+        if (seats == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(showCode);
+
+
+        return ResponseEntity.ok(seats);
     }
 
     @PostMapping

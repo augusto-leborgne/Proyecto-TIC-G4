@@ -1,6 +1,7 @@
 package org.example.proyectoticg4.dbd.Repositories;
 
 import org.example.proyectoticg4.dbd.Entities.Show;
+import org.example.proyectoticg4.dbd.Entities.ShowSeatAvailability;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,6 +15,6 @@ public interface ShowRepository extends JpaRepository<Show, Integer> {
     @Query("SELECT s FROM Show s WHERE s.hall.hallId.cinemaNumber = :cinemaNumber and s.movie.movieId = :movieId")
     List<Show> findByMovieIdAndCinemaNumber(String movieId, Integer cinemaNumber);
 
-    @Query("SELECT s FROM Show s WHERE s.hall.hallId.cinemaNumber = :cinemaNumber and s.movie.movieId = :movieId and s.showTime = :showTime")
-    Integer findShowCode(String movieId, Integer cinemaNumber, LocalDateTime showTime);
+    @Query("SELECT s.showSeatAvailabilities FROM Show s WHERE s.hall.hallId.cinemaNumber = :cinemaNumber and s.movie.movieId = :movieId and s.showTime = :showTime")
+    List<ShowSeatAvailability> findSeats(String movieId, Integer cinemaNumber, LocalDateTime showTime);
 }

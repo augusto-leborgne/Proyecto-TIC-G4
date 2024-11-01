@@ -8,8 +8,6 @@ import java.io.Serializable;
 @Embeddable
 public class ShowSeatAvailabilityId implements Serializable {
     private Integer showCode;
-    private Integer hallNumber;
-    private Integer cinemaNumber;
     private Integer seatColumn;
     private Integer seatRow;
 
@@ -19,8 +17,6 @@ public class ShowSeatAvailabilityId implements Serializable {
     // Parameterized constructor
     public ShowSeatAvailabilityId(Integer showCode, SeatId seatID) {
         this.showCode = showCode;
-        this.hallNumber = seatID.getHallNumber();
-        this.cinemaNumber = seatID.getcinemaNumber();
         this.seatColumn = seatID.getSeatColumn();
         this.seatRow = seatID.getSeatRow();
     }
@@ -31,22 +27,6 @@ public class ShowSeatAvailabilityId implements Serializable {
 
     public void setShowCode(Integer showCode) {
         this.showCode = showCode;
-    }
-
-    public Integer getHallNumber() {
-        return hallNumber;
-    }
-
-    public void setHallNumber(Integer hallNumber) {
-        this.hallNumber = hallNumber;
-    }
-
-    public Integer getCinemaNumber() {
-        return cinemaNumber;
-    }
-
-    public void setCinemaNumber(Integer cinemaNumber) {
-        this.cinemaNumber = cinemaNumber;
     }
 
     public Integer getSeatColumn() {
