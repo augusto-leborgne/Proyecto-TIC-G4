@@ -85,6 +85,10 @@ public class ShowService {
         return showRepository.findByMovieIdAndCinemaNumber(movieId, cinemaNumber);
     }
 
+    public Integer findShowCode(String movieId, Integer cinemaNumber, LocalDateTime showTime) {
+        return showRepository.findShowCode(movieId, cinemaNumber, showTime);
+    }
+
     public void deleteShow(Integer showId) {
         showRepository.deleteById(showId);
     }

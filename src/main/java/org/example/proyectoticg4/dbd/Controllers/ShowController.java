@@ -75,6 +75,26 @@ public class ShowController {
         return ResponseEntity.ok(showtimes);
     }
 
+    @GetMapping("/showCode")
+    public ResponseEntity<Integer> getShowCode(
+            @RequestParam("movieId") String movieId,
+            @RequestParam("cinemaNumber") Integer cinemaNumber,
+            @RequestParam("showTime") LocalDateTime showTime) {
+
+        if (movieId == null || cinemaNumber == null || showTime == null) {
+            throw new IllegalArgumentException("Movie ID, Cinema Number and Show Time must be provided.");
+        }
+        // Fetch shows by movie, cinema and show time
+        Integer showCode = showService.findShowCode(movieId, cinemaNumber, showTime);
+
+        // Check if any shows are found
+        if (showCode == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(showCode);
+    }
+
     @PostMapping
     public ResponseEntity<String> createShow(@RequestBody Show show) {
         try {
