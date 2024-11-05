@@ -19,10 +19,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public boolean checkIfUserExists(String email) {
-        return userRepository.findByUserId(email).isPresent();
-    }
-
     public boolean verifyPassword(String password1, String password2) {
         if (password1.equals(password2)){
             return true;
@@ -36,7 +32,7 @@ public class UserService {
     }
 
     public User getUserById(String id) {
-        return userRepository.findById(id);
+        return userRepository.findByUserId(id);
     }
 
     public User saveUser(User user) {

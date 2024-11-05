@@ -23,8 +23,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
 //    @PreAuthorize("permitAll()")
     @PostMapping("/register")
@@ -40,10 +40,9 @@ public class UserController {
 //    @PreAuthorize("permitAll()")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String userId, @RequestParam String password) {
-        Optional<User> userOptional = userService.getUserById(userId);
+        User user = userService.getUserById(userId);
 
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
+        if (user != null) {
             if (userService.verifyPassword(password, user.getPassword())) {
                 return ResponseEntity.ok("Login successful");
             } else {
