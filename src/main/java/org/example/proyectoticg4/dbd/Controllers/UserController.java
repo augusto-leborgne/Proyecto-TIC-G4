@@ -29,8 +29,8 @@ public class UserController {
 //    @PreAuthorize("permitAll()")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        if (userService.checkIfUserExists(user.getUserId())){
-            return ResponseEntity.badRequest().body("User with this email already exists");
+        if (userService.getUserById(user.getUserId()) != null) {
+            return ResponseEntity.badRequest().body("User with this email/username already exists");
         }
 
         userService.registerUser(user);
