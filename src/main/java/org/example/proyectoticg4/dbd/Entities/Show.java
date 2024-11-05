@@ -2,6 +2,8 @@ package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ public class Show {
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShowSeatAvailability> showSeatAvailabilities = new ArrayList<>();
 
+    @Column(name = "price", nullable = false)
+    private Integer price; // Price of the show
 
     // Getters and Setters
     public Integer getShowCode() {
@@ -74,4 +78,13 @@ public class Show {
     public void setShowTime(LocalDateTime showTime) {
         this.showTime = showTime;
     }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
 }

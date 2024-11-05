@@ -25,5 +25,11 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
-    // Additional methods can be added here (like deleting a ticket, finding by show, etc.)
+    public List<Ticket> findTicketsByUserAndReservation(String userId, Long reservationId) {
+        return ticketRepository.findByUser_UserIdAndReservation_ReservationId(userId, reservationId);
+    }
+
+    public List<Ticket> getTicketsByUserId(String userId) {
+        return ticketRepository.findByUser_UserId(userId);
+    }
 }

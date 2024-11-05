@@ -1,13 +1,15 @@
 package org.example.proyectoticg4.dbd.Services;
 
 
-import org.example.proyectoticg4.dbd.Entities.Reservation;
-import org.example.proyectoticg4.dbd.Entities.Ticket;
+import org.example.proyectoticg4.dbd.Entities.*;
 import org.example.proyectoticg4.dbd.Repositories.ReservationRepository;
+import org.example.proyectoticg4.dbd.Repositories.ShowSeatAvailabilityRepository;
 import org.example.proyectoticg4.dbd.Repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,17 +21,42 @@ public class ReservationService {
     @Autowired
     private TicketRepository ticketRepository;
 
-    public Reservation createReservation(Reservation reservation, List<Ticket> tickets) {
-        // Save reservation first
-        Reservation savedReservation = reservationRepository.save(reservation);
+    @Autowired
+    private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
-        // Set reservation to each ticket and save them
-        for (Ticket ticket : tickets) {
-            ticket.setReservation(savedReservation);
+
+    public Reservation createReservationWithTickets(User user, List<ShowSeatAvailability> selectedSeats) {
+        // 1. Create the Reservation
+        Show show = selectedSeats.getFirst().getShow();
+
+        Reservation reservation = new Reservation();
+        reservation.setUser(user);
+        reservation.setShow(show); // Assume all seats are for the same show
+        reservation.setReservationTime(LocalDateTime.now());
+        reservation.setTotal(selectedSeats.size() * show.getPrice());
+        reservation = reservationRepository.save(reservation);
+
+        // 2. Create Tickets for each selected seat and update seat availability
+        for (ShowSeatAvailability seat : selectedSeats) {
+            // Create a new Ticket
+            Ticket ticket = new Ticket();
+            ticket.setUser(user);
+            ticket.setShow(seat.getShow());
+            ticket.setReservation(reservation);
+            ticket.setSeatColumn(seat.getId().getSeatColumn());
+            ticket.setSeatRow(seat.getId().getSeatRow());
+            ticket.setHallNumber(seat.getShow().getHall().getHallId().gethNumber());
+            ticket.setCinemaNumber(seat.getShow().getHall().getCinema().getCiNumber());
+
+            // Save ticket
             ticketRepository.save(ticket);
+
+            // Mark seat as unavailable
+            seat.setAvailable(false);
+            showSeatAvailabilityRepository.save(seat);
         }
 
-        return savedReservation;
+        return reservation;
     }
 
     public List<Reservation> getAllReservations() {
@@ -38,5 +65,13 @@ public class ReservationService {
 
     public Reservation getReservationById(Long id) {
         return reservationRepository.findById(id).orElse(null);
+    }
+
+    public List<Reservation> findReservationsByUserId(String userId) {
+        return reservationRepository.findByUser_UserId(userId);
+    }
+
+    public void deleteReservation(Reservation reservation) {
+        reservationRepository.delete(reservation);
     }
 }

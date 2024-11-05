@@ -19,20 +19,25 @@ public class TicketController {
         this.ticketService = ticketService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Ticket>> getAllTickets() {
-        List<Ticket> tickets = ticketService.getAllTickets();
+    @GetMapping()
+    public ResponseEntity<List<Ticket>> getTicketsByUserAndReservation(
+            @RequestParam("userId") String userId,
+            @RequestParam("reservationId") Long reservationId) {
+
+        List<Ticket> tickets = ticketService.findTicketsByUserAndReservation(userId, reservationId);
+
+        if (tickets.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(tickets);
     }
 
-    @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
-        // Ensure that the user is set in the ticket object
-        if (ticket.getUser() == null || ticket.getUser().getUserId() == null){
-            return ResponseEntity.badRequest().body(null); // Handle the case where user is not provided
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<Ticket>> getTicketsByUserId(@PathVariable String userId) {
+        List<Ticket> tickets = ticketService.getTicketsByUserId(userId);
+        if (tickets.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-
-        Ticket createdTicket = ticketService.createTicket(ticket);
-        return ResponseEntity.ok(createdTicket);
+        return ResponseEntity.ok(tickets);
     }
 }

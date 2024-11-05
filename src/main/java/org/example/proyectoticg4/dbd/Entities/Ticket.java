@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -21,9 +22,6 @@ public class Ticket {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
-
     @Column(name = "hall_number")
     private Integer hallNumber;
 
@@ -36,6 +34,7 @@ public class Ticket {
     @Column(name = "seat_row", nullable = false)
     private Integer seatRow;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id")
     private Reservation reservation;
@@ -71,14 +70,6 @@ public class Ticket {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
     }
 
     public Integer getHallNumber() {

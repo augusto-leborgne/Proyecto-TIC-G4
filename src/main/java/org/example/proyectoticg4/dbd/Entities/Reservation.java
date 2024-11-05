@@ -1,6 +1,8 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class Reservation {
 
     @Column(name = "reservation_time")
     private LocalDateTime reservationTime;
+
+    @Column(name = "price", nullable = false)
+    private Integer total;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
@@ -66,5 +71,13 @@ public class Reservation {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 }
