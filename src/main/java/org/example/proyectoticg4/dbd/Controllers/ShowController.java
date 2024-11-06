@@ -118,7 +118,7 @@ public class ShowController {
             show.setHall(existingHall.get());
 
             // Create show with available seats
-            Show savedShow = showService.createShowWithAvailableSeats(existingMovie.get(), existingHall.get(), show.getShowTime());
+            Show savedShow = showService.createShowWithAvailableSeats(existingMovie.get(), existingHall.get(), show.getShowTime(), show.getPrice());
 
             return ResponseEntity.ok("Show created with ID: " + savedShow.getShowCode());
         } catch (Exception e) {

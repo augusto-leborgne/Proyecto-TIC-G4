@@ -34,12 +34,13 @@ public class ShowService {
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
     @Transactional
-    public Show createShowWithAvailableSeats(Movie movie, Hall hall, LocalDateTime showTime) {
+    public Show createShowWithAvailableSeats(Movie movie, Hall hall, LocalDateTime showTime, Integer price) {
         try {
             Show show = new Show();
             show.setMovie(movie);
             show.setHall(hall);
             show.setShowTime(showTime);
+            show.setPrice(price);
 
             // Save the show, then detach it to avoid session conflicts
             Show savedShow = showRepository.save(show);
