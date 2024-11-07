@@ -19,6 +19,9 @@ public class ReservationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ShowSeatAvailabilityService showSeatAvailabilityService;
+
     @GetMapping
     public ResponseEntity<List<Reservation>> getAllReservations() {
         return ResponseEntity.ok(reservationService.getAllReservations());
@@ -38,16 +41,18 @@ public class ReservationController {
     @PostMapping()
     public ResponseEntity<Reservation> createReservation(
             @RequestParam String userId,
-            @RequestBody List<ShowSeatAvailability> selectedSeats) {
+            @RequestBody List<ShowSeatAvailabilityId> selectedSeatsId) {
 
         User user = userService.getUserById(userId);
         if (user == null) {
             return ResponseEntity.badRequest().body(null);
         }
 
-        if (selectedSeats.isEmpty()) {
+        if (selectedSeatsId.isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
+
+        List<ShowSeatAvailability> selectedSeats = showSeatAvailabilityService.findSeatsByIds(selectedSeatsId);
 
         Reservation reservation = reservationService.createReservationWithTickets(user, selectedSeats);
         return ResponseEntity.ok(reservation);
