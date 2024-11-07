@@ -15,6 +15,6 @@ public class ShowSeatAvailabilityService {
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
     public List<ShowSeatAvailability> findSeatsByIds(List<ShowSeatAvailabilityId> seatIds) {
-        return showSeatAvailabilityRepository.findAllById(seatIds);
+        return showSeatAvailabilityRepository.findByCompositeIds(seatIds);
     }
 }
