@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
@@ -22,10 +23,10 @@ public class Ticket {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @Column(name = "hall_number")
+    @Column(name = "hall_number", nullable = false)
     private Integer hallNumber;
 
-    @Column(name = "cinema_number")
+    @Column(name = "cinema_number", nullable = false)
     private Integer cinemaNumber;
 
     @Column(name = "seat_column", nullable = false)
@@ -34,8 +35,11 @@ public class Ticket {
     @Column(name = "seat_row", nullable = false)
     private Integer seatRow;
 
+    @Column(name = "showTime", nullable = false)
+    private LocalDateTime showTime;
+
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id")
     private Reservation reservation;
 
@@ -102,5 +106,13 @@ public class Ticket {
 
     public void setSeatRow(Integer seatRow) {
         this.seatRow = seatRow;
+    }
+
+    public void setShowTime(LocalDateTime showTime) {
+        this.showTime = showTime;
+    }
+
+    public LocalDateTime getShowTime() {
+        return showTime;
     }
 }

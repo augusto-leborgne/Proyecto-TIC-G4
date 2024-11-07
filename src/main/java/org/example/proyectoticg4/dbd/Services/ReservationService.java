@@ -47,6 +47,7 @@ public class ReservationService {
             ticket.setSeatRow(seat.getId().getSeatRow());
             ticket.setHallNumber(seat.getShow().getHall().getHallId().gethNumber());
             ticket.setCinemaNumber(seat.getShow().getHall().getCinema().getCiNumber());
+            ticket.setShowTime(seat.getShow().getShowTime());
 
             // Save ticket
             ticketRepository.save(ticket);
@@ -72,6 +73,17 @@ public class ReservationService {
     }
 
     public void deleteReservation(Reservation reservation) {
+        List<Ticket> tickets = reservation.getTickets();
+
+        for (Ticket ticket : tickets) {
+            ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(
+                            new ShowSeatAvailabilityId(ticket.getShow().getShowCode(), new SeatId(0,0,ticket.getSeatColumn(), ticket.getSeatRow())))
+                    .orElseThrow(() -> new RuntimeException("Seat not found")); // SeatId con hall y cine 0 porque solo se precisa columna y fila
+
+            seat.setAvailable(false);
+            showSeatAvailabilityRepository.save(seat);
+        }
+
         reservationRepository.delete(reservation);
     }
 }

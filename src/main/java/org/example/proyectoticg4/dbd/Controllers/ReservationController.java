@@ -58,7 +58,7 @@ public class ReservationController {
         return ResponseEntity.ok(reservation);
     }
 
-    @DeleteMapping
+    @DeleteMapping()
     public ResponseEntity<Void> deleteReservation(@RequestParam Long reservationId) {
         Reservation reservation = reservationService.getReservationById(reservationId);
         if (reservation == null) {
