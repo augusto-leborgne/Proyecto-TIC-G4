@@ -35,7 +35,7 @@ public class Ticket {
     @Column(name = "seat_row", nullable = false)
     private Integer seatRow;
 
-    @Column(name = "showTime", nullable = false)
+    @Column(name = "showTime")
     private LocalDateTime showTime;
 
     @JsonIgnore

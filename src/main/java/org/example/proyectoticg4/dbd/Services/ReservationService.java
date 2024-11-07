@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,7 +35,9 @@ public class ReservationService {
         reservation.setShow(show); // Assume all seats are for the same show
         reservation.setReservationTime(LocalDateTime.now());
         reservation.setTotal(selectedSeats.size() * show.getPrice());
-        reservation = reservationRepository.save(reservation);
+
+
+        List<Ticket> tickets = new ArrayList<>();
 
         // 2. Create Tickets for each selected seat and update seat availability
         for (ShowSeatAvailability seat : selectedSeats) {
@@ -52,10 +55,15 @@ public class ReservationService {
             // Save ticket
             ticketRepository.save(ticket);
 
+            tickets.add(ticket);
+
             // Mark seat as unavailable
             seat.setAvailable(false);
             showSeatAvailabilityRepository.save(seat);
         }
+
+        reservation.setTickets(tickets);
+        reservation = reservationRepository.save(reservation);
 
         return reservation;
     }
