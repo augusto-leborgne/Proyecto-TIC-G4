@@ -24,12 +24,4 @@ public class TicketService {
     public Ticket createTicket(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
-
-    public List<Ticket> findTicketsByUserAndReservation(String userId, Long reservationId) {
-        return ticketRepository.findByUser_UserIdAndReservation_ReservationId(userId, reservationId);
-    }
-
-    public List<Ticket> getTicketsByUserId(String userId) {
-        return ticketRepository.findByUser_UserId(userId);
-    }
 }

@@ -43,8 +43,6 @@ public class ReservationService {
         for (ShowSeatAvailability seat : selectedSeats) {
             // Create a new Ticket
             Ticket ticket = new Ticket();
-            ticket.setUser(user);
-            ticket.setShow(seat.getShow());
             ticket.setReservation(reservation);
             ticket.setSeatColumn(seat.getId().getSeatColumn());
             ticket.setSeatRow(seat.getId().getSeatRow());
@@ -85,7 +83,7 @@ public class ReservationService {
 
         for (Ticket ticket : tickets) {
             ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(
-                            new ShowSeatAvailabilityId(ticket.getShow().getShowCode(), new SeatId(0,0,ticket.getSeatColumn(), ticket.getSeatRow())))
+                            new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(0,0,ticket.getSeatColumn(), ticket.getSeatRow())))
                     .orElseThrow(() -> new RuntimeException("Seat not found")); // SeatId con hall y cine 0 porque solo se precisa columna y fila
 
             seat.setAvailable(false);

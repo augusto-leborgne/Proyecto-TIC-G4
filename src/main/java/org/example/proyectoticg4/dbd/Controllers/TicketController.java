@@ -18,26 +18,4 @@ public class TicketController {
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
     }
-
-    @GetMapping()
-    public ResponseEntity<List<Ticket>> getTicketsByUserAndReservation(
-            @RequestParam("userId") String userId,
-            @RequestParam("reservationId") Long reservationId) {
-
-        List<Ticket> tickets = ticketService.findTicketsByUserAndReservation(userId, reservationId);
-
-        if (tickets.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(tickets);
-    }
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Ticket>> getTicketsByUserId(@PathVariable String userId) {
-        List<Ticket> tickets = ticketService.getTicketsByUserId(userId);
-        if (tickets.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(tickets);
-    }
 }
