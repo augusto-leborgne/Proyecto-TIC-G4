@@ -49,6 +49,7 @@ public class ReservationService {
             ticket.setHallNumber(seat.getShow().getHall().getHallId().gethNumber());
             ticket.setCinemaNumber(seat.getShow().getHall().getCinema().getCiNumber());
             ticket.setShowTime(seat.getShow().getShowTime());
+            ticket.setMovieName(seat.getShow().getMovie().getMovieId());
 
             // Save ticket
             ticketRepository.save(ticket);
