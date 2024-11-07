@@ -15,24 +15,19 @@ public class Ticket {
     @Column(name = "t_code")
     private Long tCode;
 
-    @ManyToOne
-    @JoinColumn(name = "show_cod", referencedColumnName = "show_cod")
-    private Show show;
+    @Column(name = "movie_name")
+    private String movieName;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
-    @Column(name = "hall_number", nullable = false)
+    @Column(name = "hall_number")
     private Integer hallNumber;
 
-    @Column(name = "cinema_number", nullable = false)
+    @Column(name = "cinema_number")
     private Integer cinemaNumber;
 
-    @Column(name = "seat_column", nullable = false)
+    @Column(name = "seat_column")
     private Integer seatColumn;
 
-    @Column(name = "seat_row", nullable = false)
+    @Column(name = "seat_row")
     private Integer seatRow;
 
     @Column(name = "showTime")
@@ -60,20 +55,12 @@ public class Ticket {
         this.tCode = tCode;
     }
 
-    public Show getShow() {
-        return show;
+    public String getMovieName() {
+        return movieName;
     }
 
-    public void setShow(Show show) {
-        this.show = show;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setMovieName(String movieName) {
+        this.movieName = movieName;
     }
 
     public Integer getHallNumber() {
