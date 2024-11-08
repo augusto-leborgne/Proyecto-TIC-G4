@@ -3,7 +3,6 @@ package org.example.proyectoticg4.dbd.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -95,11 +94,11 @@ public class Ticket {
         this.seatRow = seatRow;
     }
 
-    public void setShowTime(LocalDateTime showTime) {
-        this.showTime = showTime;
-    }
-
     public LocalDateTime getShowTime() {
         return showTime;
+    }
+
+    public void setShowTime(LocalDateTime showTime) {
+        this.showTime = showTime;
     }
 }

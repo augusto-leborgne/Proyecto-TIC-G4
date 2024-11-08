@@ -21,17 +21,15 @@ public class ShowService {
 
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private SeatRepository seatRepository;
+    @Autowired
+    private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
     @Autowired
     public ShowService(ShowRepository showRepository) {
         this.showRepository = showRepository;
     }
-
-    @Autowired
-    private SeatRepository seatRepository;
-
-    @Autowired
-    private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
     @Transactional
     public Show createShowWithAvailableSeats(Movie movie, Hall hall, LocalDateTime showTime, Integer price) {

@@ -36,7 +36,7 @@ public class HallController {
     /**
      * Get a hall by its composite id (hallNumber and cinemaNumber).
      *
-     * @param hallNumber The number of the hall
+     * @param hallNumber   The number of the hall
      * @param cinemaNumber The number of the cinema
      * @return The Hall entity if found
      */
@@ -64,9 +64,9 @@ public class HallController {
     /**
      * Update an existing hall's information.
      *
-     * @param hallNumber The hall number
+     * @param hallNumber   The hall number
      * @param cinemaNumber The cinema number
-     * @param updatedHall The Hall entity with updated information
+     * @param updatedHall  The Hall entity with updated information
      * @return The updated Hall entity
      */
     @PutMapping("/{hallNumber}/{cinemaNumber}")
@@ -85,7 +85,7 @@ public class HallController {
     /**
      * Delete a hall by its id.
      *
-     * @param hallNumber The hall number
+     * @param hallNumber   The hall number
      * @param cinemaNumber The cinema number
      * @return HTTP status representing the result of the delete operation
      */

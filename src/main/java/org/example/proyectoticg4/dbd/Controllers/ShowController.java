@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/shows")
@@ -92,7 +94,6 @@ public class ShowController {
         if (seats == null) {
             return ResponseEntity.notFound().build();
         }
-
 
 
         return ResponseEntity.ok(seats);
