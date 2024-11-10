@@ -25,7 +25,7 @@ public class Movie {
 
     @JsonIgnore
     @Column(name = "image", columnDefinition = "bytea")
-    private byte[] image;  // To store the image as binary data
+    private byte[] image;
 
     public String getMovieId() {
         return movieId;

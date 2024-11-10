@@ -40,11 +40,10 @@ public class ShowService {
             show.setShowTime(showTime);
             show.setPrice(price);
 
-            // Save the show, then detach it to avoid session conflicts
             Show savedShow = showRepository.save(show);
             entityManager.detach(savedShow);
 
-            List<Seat> seatsInHall = hall.getSeats(); // Ensure this gets the correct seats for the hall
+            List<Seat> seatsInHall = hall.getSeats();
 
             List<ShowSeatAvailability> showSeatAvailabilities = seatsInHall.stream()
                     .map(seat -> {
@@ -59,15 +58,14 @@ public class ShowService {
                     })
                     .collect(Collectors.toList());
 
-            // Save all ShowSeatAvailability entries at once
             showSeatAvailabilityRepository.saveAll(showSeatAvailabilities);
-            showSeatAvailabilityRepository.flush();  // Force flush to write to DB immediately
+            showSeatAvailabilityRepository.flush();
 
             savedShow.setShowSeatAvailabilities(showSeatAvailabilities);
             return savedShow;
         } catch (Exception e) {
             e.printStackTrace();
-            throw e; // Re-throw to handle in the controller
+            throw e;
         }
     }
 

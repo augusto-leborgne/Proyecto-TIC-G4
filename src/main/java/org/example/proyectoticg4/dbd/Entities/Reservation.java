@@ -31,7 +31,6 @@ public class Reservation {
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
-    // Getters and Setters
     public Long getReservationId() {
         return reservationId;
     }

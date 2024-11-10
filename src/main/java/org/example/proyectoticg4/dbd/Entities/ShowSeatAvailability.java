@@ -8,17 +8,16 @@ import jakarta.persistence.*;
 public class ShowSeatAvailability {
 
     @EmbeddedId
-    private ShowSeatAvailabilityId id; // Composite key (show_code, seat_column, seat_row)
+    private ShowSeatAvailabilityId id;
 
     @JsonIgnore
     @ManyToOne
-    @MapsId("showCode") // This maps the showCode in ShowSeatAvailabilityId to the Show
+    @MapsId("showCode")
     @JoinColumn(name = "show_code")
     private Show show;
 
     private boolean available;
 
-    // Getters and Setters
 
     public ShowSeatAvailabilityId getId() {
         return id;

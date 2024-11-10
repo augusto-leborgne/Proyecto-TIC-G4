@@ -8,10 +8,9 @@ import java.util.Objects;
 @Embeddable
 public class HallId implements Serializable {
 
-    private int hNumber;  // Hall number
-    private int cinemaNumber;  // Cinema number (foreign key)
+    private int hNumber;
+    private int cinemaNumber;
 
-    // Constructors, getters, setters, hashCode, equals
 
     public HallId() {
     }

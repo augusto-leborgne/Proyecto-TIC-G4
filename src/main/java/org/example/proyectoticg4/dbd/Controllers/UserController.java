@@ -26,7 +26,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    //    @PreAuthorize("permitAll()")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         if (userService.getUserById(user.getUserId()) != null) {
@@ -37,7 +36,6 @@ public class UserController {
         return ResponseEntity.ok("User registered successfully");
     }
 
-    //    @PreAuthorize("permitAll()")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String userId, @RequestParam String password) {
         User user = userService.getUserById(userId);

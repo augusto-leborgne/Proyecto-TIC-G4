@@ -18,7 +18,6 @@ public class Seat {
     })
     private Hall hall;
 
-    // Getters and setters
 
     public SeatId getseatId() {
         return seatId;

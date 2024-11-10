@@ -9,8 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, String> {
-    // String because movieId (m_name) is of type String
     @Query("Select image From Movie")
-    public List<byte[]> findAllImages();
+    List<byte[]> findAllImages();
 
 }

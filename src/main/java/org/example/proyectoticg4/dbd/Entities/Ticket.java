@@ -37,7 +37,7 @@ public class Ticket {
     @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id")
     private Reservation reservation;
 
-    // Getters and Setters (including reservation)
+
     public Reservation getReservation() {
         return reservation;
     }

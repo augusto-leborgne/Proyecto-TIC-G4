@@ -18,11 +18,7 @@ public class UserService {
     }
 
     public boolean verifyPassword(String password1, String password2) {
-        if (password1.equals(password2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return password1.equals(password2);
     }
 
     public List<User> getAllUsers() {

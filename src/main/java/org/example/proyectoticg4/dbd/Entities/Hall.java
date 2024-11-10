@@ -10,11 +10,11 @@ import java.util.List;
 public class Hall {
 
     @EmbeddedId
-    private HallId hallId;  // Composite primary key
+    private HallId hallId;
 
     @JsonIgnore
     @ManyToOne
-    @MapsId("cinemaNumber") // Maps cinemaNumber in HallId to the Cinema entity
+    @MapsId("cinemaNumber")
     @JoinColumn(name = "cinemaNumber", referencedColumnName = "ci_number", insertable = false, updatable = false)
     private Cinema cinema;
 
@@ -22,7 +22,6 @@ public class Hall {
     @OneToMany(mappedBy = "hall")
     private List<Seat> seats;
 
-    // Getters and Setters
     public HallId getHallId() {
         return hallId;
     }

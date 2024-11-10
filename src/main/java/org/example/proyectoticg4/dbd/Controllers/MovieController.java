@@ -17,13 +17,11 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    // Get all movies
     @GetMapping
     public List<Movie> getAllMovies() {
         return movieService.getAllMovies();
     }
 
-    // Get a movie by ID
     @GetMapping("/{movieId}")
     public ResponseEntity<Movie> getMovieById(@PathVariable String movieId) {
         Optional<Movie> movie = movieService.getMovieById(movieId);
@@ -33,15 +31,13 @@ public class MovieController {
     @PostMapping("/upload")
     public ResponseEntity<String> createMovie(@RequestBody Movie movieDTO) {
         try {
-            // Create a new Movie entity and set its fields
             Movie movie = new Movie();
             movie.setMovieId(movieDTO.getMovieId());
             movie.setDuration(movieDTO.getDuration());
             movie.setDirector(movieDTO.getDirector());
             movie.setMinimumAge(movieDTO.getMinimumAge());
-            movie.setImage(movieDTO.getImage());  // Store the Base64 encoded image directly
+            movie.setImage(movieDTO.getImage());
 
-            // Save the movie
             movieService.saveMovie(movie);
             return ResponseEntity.ok("Movie uploaded successfully with image");
 
@@ -51,7 +47,6 @@ public class MovieController {
     }
 
 
-    // Update an existing movie
     @PutMapping("/{movieId}")
     public ResponseEntity<Movie> updateMovie(@PathVariable String movieId, @RequestBody Movie movie) {
         Movie updatedMovie = movieService.updateMovie(movieId, movie);
@@ -62,7 +57,6 @@ public class MovieController {
         }
     }
 
-    // Delete a movie
     @DeleteMapping("/{movieId}")
     public ResponseEntity<Void> deleteMovie(@PathVariable String movieId) {
         movieService.deleteMovie(movieId);
