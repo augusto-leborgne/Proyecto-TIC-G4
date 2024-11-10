@@ -82,9 +82,10 @@ public class ReservationService {
         List<Ticket> tickets = reservation.getTickets();
 
         for (Ticket ticket : tickets) {
+
             ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(
-                            new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(0, 0, ticket.getSeatColumn(), ticket.getSeatRow())))
-                    .orElseThrow(() -> new RuntimeException("Seat not found")); // SeatId con hall y cine 0 porque solo se precisa columna y fila
+                            new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())))
+                    .orElseThrow(() -> new RuntimeException("Seat not found"));
 
             seat.setAvailable(false);
             showSeatAvailabilityRepository.save(seat);
