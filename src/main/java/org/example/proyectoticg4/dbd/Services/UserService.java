@@ -3,11 +3,9 @@ package org.example.proyectoticg4.dbd.Services;
 import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -20,9 +18,9 @@ public class UserService {
     }
 
     public boolean verifyPassword(String password1, String password2) {
-        if (password1.equals(password2)){
+        if (password1.equals(password2)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

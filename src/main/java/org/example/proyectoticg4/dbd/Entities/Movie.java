@@ -1,7 +1,10 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "movies")
@@ -56,7 +59,11 @@ public class Movie {
         this.minimumAge = minimumAge;
     }
 
-    public byte[] getImage() { return image; }
+    public byte[] getImage() {
+        return image;
+    }
 
-    public void setImage(byte[] image) { this.image = image; }
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }

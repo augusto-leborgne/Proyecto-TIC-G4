@@ -1,12 +1,16 @@
 package org.example.proyectoticg4.dbd.Controllers;
 
-import org.example.proyectoticg4.dbd.Entities.*;
+import org.example.proyectoticg4.dbd.Entities.Reservation;
+import org.example.proyectoticg4.dbd.Entities.ShowSeatAvailability;
+import org.example.proyectoticg4.dbd.Entities.ShowSeatAvailabilityId;
+import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Services.ReservationService;
 import org.example.proyectoticg4.dbd.Services.ShowSeatAvailabilityService;
 import org.example.proyectoticg4.dbd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController

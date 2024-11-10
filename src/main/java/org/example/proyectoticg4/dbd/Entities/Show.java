@@ -3,7 +3,6 @@ package org.example.proyectoticg4.dbd.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,16 +50,16 @@ public class Show {
         return movie;
     }
 
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
     public List<ShowSeatAvailability> getShowSeatAvailabilities() {
         return showSeatAvailabilities;
     }
 
     public void setShowSeatAvailabilities(List<ShowSeatAvailability> showSeatAvailabilities) {
         this.showSeatAvailabilities = showSeatAvailabilities;
-    }
-
-    public void setMovie(Movie movie) {
-        this.movie = movie;
     }
 
     public Hall getHall() {

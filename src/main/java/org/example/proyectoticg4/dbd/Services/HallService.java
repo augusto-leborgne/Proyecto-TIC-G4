@@ -52,7 +52,7 @@ public class HallService {
     /**
      * Update an existing hall's information.
      *
-     * @param hallId The id of the hall to be updated
+     * @param hallId      The id of the hall to be updated
      * @param updatedHall The updated Hall entity
      * @return The updated Hall entity
      */

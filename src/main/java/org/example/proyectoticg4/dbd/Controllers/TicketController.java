@@ -1,12 +1,9 @@
 package org.example.proyectoticg4.dbd.Controllers;
 
-import org.example.proyectoticg4.dbd.Entities.Ticket;
 import org.example.proyectoticg4.dbd.Services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/tickets")

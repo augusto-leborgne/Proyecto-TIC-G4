@@ -12,13 +12,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 
 @Service
 public class MovieService {
 
+    // Define the directory where the images will be stored
+    private final String uploadDir = "uploads/";  // Directory for storing images
     @Autowired
     private MovieRepository movieRepository;
 
@@ -55,9 +54,6 @@ public class MovieService {
             return null;
         }
     }
-
-    // Define the directory where the images will be stored
-    private final String uploadDir = "uploads/";  // Directory for storing images
 
     public String saveImage(MultipartFile image) throws Exception {
         // Ensure the directory exists

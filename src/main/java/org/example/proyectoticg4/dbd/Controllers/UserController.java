@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -26,7 +25,8 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
-//    @PreAuthorize("permitAll()")
+
+    //    @PreAuthorize("permitAll()")
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         if (userService.getUserById(user.getUserId()) != null) {
@@ -37,7 +37,7 @@ public class UserController {
         return ResponseEntity.ok("User registered successfully");
     }
 
-//    @PreAuthorize("permitAll()")
+    //    @PreAuthorize("permitAll()")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String userId, @RequestParam String password) {
         User user = userService.getUserById(userId);

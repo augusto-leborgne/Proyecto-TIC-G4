@@ -26,6 +26,7 @@ public class Cinema {
     public String getNeighborhood() {
         return neighborhood;
     }
+
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
     }
@@ -33,15 +34,19 @@ public class Cinema {
     public Integer getCiNumber() {
         return ciNumber;
     }
+
     public void setCiNumber(Integer ciNumber) {
         this.ciNumber = ciNumber;
     }
+
     public Integer getHalls() {
         return halls;
     }
+
     public void setHalls(Integer halls) {
         this.halls = halls;
     }
+
     public List<Hall> getHallSet() {
         return hallSet;
     }
