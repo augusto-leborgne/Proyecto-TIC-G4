@@ -86,7 +86,7 @@ public class ReservationService {
                             new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())))
                     .orElseThrow(() -> new RuntimeException("Seat not found"));
 
-            seat.setAvailable(false);
+            seat.setAvailable(true);
             showSeatAvailabilityRepository.save(seat);
         }
 
