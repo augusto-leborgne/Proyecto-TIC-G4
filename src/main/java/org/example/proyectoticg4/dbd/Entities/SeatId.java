@@ -28,7 +28,6 @@ public class SeatId implements Serializable {
         this.seatRow = seatRow;
     }
 
-    // Getters, setters, equals, and hashCode methods
 
     public int getHallNumber() {
         return hallNumber;

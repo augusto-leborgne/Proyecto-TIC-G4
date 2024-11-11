@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.dbd.Services;
 
+import org.example.proyectoticg4.dbd.Entities.Reservation;
 import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,7 @@ public class UserService {
     }
 
     public boolean verifyPassword(String password1, String password2) {
-        if (password1.equals(password2)) {
-            return true;
-        } else {
-            return false;
-        }
+        return password1.equals(password2);
     }
 
     public List<User> getAllUsers() {
@@ -31,6 +28,15 @@ public class UserService {
 
     public User getUserById(String id) {
         return userRepository.findByUserId(id);
+    }
+
+    public List<Reservation> getReservations(String userId) {
+        User user = userRepository.findByUserId(userId);
+        if (user == null || user.getReservations() == null) {
+            return null;
+        }else {
+            return user.getReservations();
+        }
     }
 
     public User saveUser(User user) {

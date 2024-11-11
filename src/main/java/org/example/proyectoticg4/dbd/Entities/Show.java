@@ -14,11 +14,11 @@ public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "show_cod")
-    private Integer showCode; // Unique show code
+    private Integer showCode;
 
     @ManyToOne
     @JoinColumn(name = "m_name", referencedColumnName = "m_name", nullable = false)
-    private Movie movie; // Reference to the movie
+    private Movie movie;
 
     @ManyToOne
     @JoinColumns({
@@ -28,16 +28,15 @@ public class Show {
     private Hall hall;
 
     @Column(name = "show_time", nullable = false)
-    private LocalDateTime showTime; // Time of the show
+    private LocalDateTime showTime;
 
     @JsonIgnore
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShowSeatAvailability> showSeatAvailabilities = new ArrayList<>();
 
     @Column(name = "price", nullable = false)
-    private Integer price; // Price of the show
+    private Integer price;
 
-    // Getters and Setters
     public Integer getShowCode() {
         return showCode;
     }

@@ -26,36 +26,23 @@ public class ReservationService {
 
 
     public Reservation createReservationWithTickets(User user, List<ShowSeatAvailability> selectedSeats) {
-        // 1. Create the Reservation
         Show show = selectedSeats.getFirst().getShow();
 
         Reservation reservation = new Reservation();
         reservation.setUser(user);
-        reservation.setShow(show); // Assume all seats are for the same show
+        reservation.setShow(show);
         reservation.setReservationTime(LocalDateTime.now());
         reservation.setTotal(selectedSeats.size() * show.getPrice());
-
-
+        
         List<Ticket> tickets = new ArrayList<>();
 
-        // 2. Create Tickets for each selected seat and update seat availability
         for (ShowSeatAvailability seat : selectedSeats) {
-            // Create a new Ticket
-            Ticket ticket = new Ticket();
-            ticket.setReservation(reservation);
-            ticket.setSeatColumn(seat.getId().getSeatColumn());
-            ticket.setSeatRow(seat.getId().getSeatRow());
-            ticket.setHallNumber(seat.getShow().getHall().getHallId().gethNumber());
-            ticket.setCinemaNumber(seat.getShow().getHall().getCinema().getCiNumber());
-            ticket.setShowTime(seat.getShow().getShowTime());
-            ticket.setMovieName(seat.getShow().getMovie().getMovieId());
+            Ticket ticket = getTicket(seat, reservation);
 
-            // Save ticket
             ticketRepository.save(ticket);
 
             tickets.add(ticket);
 
-            // Mark seat as unavailable
             seat.setAvailable(false);
             showSeatAvailabilityRepository.save(seat);
         }
@@ -64,6 +51,18 @@ public class ReservationService {
         reservation = reservationRepository.save(reservation);
 
         return reservation;
+    }
+
+    private static Ticket getTicket(ShowSeatAvailability seat, Reservation reservation) {
+        Ticket ticket = new Ticket();
+        ticket.setReservation(reservation);
+        ticket.setSeatColumn(seat.getId().getSeatColumn());
+        ticket.setSeatRow(seat.getId().getSeatRow());
+        ticket.setHallNumber(seat.getShow().getHall().getHallId().gethNumber());
+        ticket.setCinemaNumber(seat.getShow().getHall().getCinema().getCiNumber());
+        ticket.setShowTime(seat.getShow().getShowTime());
+        ticket.setMovieName(seat.getShow().getMovie().getMovieId());
+        return ticket;
     }
 
     public List<Reservation> getAllReservations() {
@@ -82,11 +81,12 @@ public class ReservationService {
         List<Ticket> tickets = reservation.getTickets();
 
         for (Ticket ticket : tickets) {
-            ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(
-                            new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(0, 0, ticket.getSeatColumn(), ticket.getSeatRow())))
-                    .orElseThrow(() -> new RuntimeException("Seat not found")); // SeatId con hall y cine 0 porque solo se precisa columna y fila
 
-            seat.setAvailable(false);
+            ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(
+                            new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())))
+                    .orElseThrow(() -> new RuntimeException("Seat not found"));
+
+            seat.setAvailable(true);
             showSeatAvailabilityRepository.save(seat);
         }
 

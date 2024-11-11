@@ -18,23 +18,19 @@ public class CinemaService {
         this.cinemaRepository = cinemaRepository;
     }
 
-    // Obtener todos los cines
     public List<Cinema> getAllCinemas() {
         return cinemaRepository.findAll();
     }
 
-    // Obtener un cine por ID
     public Cinema getCinemaById(int id) {
         return cinemaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cinema with ID " + id + " not found"));
     }
 
-    // Crear un nuevo cine
     public Cinema createCinema(Cinema cinema) {
         return cinemaRepository.save(cinema);
     }
 
-    // Actualizar un cine existente
     public Cinema updateCinema(int id, Cinema cinemaDetails) {
         Cinema existingCinema = getCinemaById(id);
         existingCinema.setNeighborhood(cinemaDetails.getNeighborhood());
@@ -42,7 +38,6 @@ public class CinemaService {
         return cinemaRepository.save(existingCinema);
     }
 
-    // Eliminar un cine
     public void deleteCinema(int id) {
         Cinema existingCinema = getCinemaById(id);
         cinemaRepository.delete(existingCinema);

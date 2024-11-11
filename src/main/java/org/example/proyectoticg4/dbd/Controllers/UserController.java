@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.dbd.Controllers;
 
+import org.example.proyectoticg4.dbd.Entities.Reservation;
 import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,23 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+        if (user != null){
+            return ResponseEntity.ok(user);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    //    @PreAuthorize("permitAll()")
+    @GetMapping("/reservations")
+    public ResponseEntity<List<Reservation>> getReservations(@RequestParam String userId) {
+        List<Reservation> reservations = userService.getReservations(userId);
+        if (reservations == null) {
+            return ResponseEntity.notFound().build();
+        }else {
+            return ResponseEntity.ok(reservations);
+        }
+    }
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         if (userService.getUserById(user.getUserId()) != null) {
@@ -37,7 +51,6 @@ public class UserController {
         return ResponseEntity.ok("User registered successfully");
     }
 
-    //    @PreAuthorize("permitAll()")
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String userId, @RequestParam String password) {
         User user = userService.getUserById(userId);
@@ -56,6 +69,6 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

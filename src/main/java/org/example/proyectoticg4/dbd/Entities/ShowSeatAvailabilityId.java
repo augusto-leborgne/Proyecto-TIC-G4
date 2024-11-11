@@ -13,7 +13,6 @@ public class ShowSeatAvailabilityId implements Serializable {
     public ShowSeatAvailabilityId() {
     }
 
-    // Parameterized constructor
     public ShowSeatAvailabilityId(Integer showCode, SeatId seatID) {
         this.showCode = showCode;
         this.seatColumn = seatID.getSeatColumn();
