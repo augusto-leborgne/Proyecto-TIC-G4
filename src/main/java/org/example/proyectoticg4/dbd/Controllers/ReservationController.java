@@ -31,17 +31,6 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<Reservation>> getReservationsByUserId(@RequestParam("userId") String userId) {
-        List<Reservation> reservations = reservationService.findReservationsByUserId(userId);
-
-        if (reservations.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(reservations);
-    }
-
     @PostMapping()
     public ResponseEntity<Reservation> createReservation(
             @RequestParam String userId,

@@ -73,10 +73,6 @@ public class ReservationService {
         return reservationRepository.findById(id).orElse(null);
     }
 
-    public List<Reservation> findReservationsByUserId(String userId) {
-        return reservationRepository.findByUser_UserId(userId);
-    }
-
     public void deleteReservation(Reservation reservation) {
         List<Ticket> tickets = reservation.getTickets();
 
