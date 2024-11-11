@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.dbd.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "show_cod", referencedColumnName = "show_cod")
     private Show show;
