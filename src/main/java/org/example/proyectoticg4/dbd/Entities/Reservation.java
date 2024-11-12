@@ -15,11 +15,11 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "show_cod", referencedColumnName = "show_cod")
     private Show show;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
