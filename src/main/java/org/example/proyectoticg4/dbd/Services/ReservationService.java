@@ -7,6 +7,7 @@ import org.example.proyectoticg4.dbd.Repositories.ShowSeatAvailabilityRepository
 import org.example.proyectoticg4.dbd.Repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,12 +25,13 @@ public class ReservationService {
     @Autowired
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
+    @Transactional
     public Reservation createReservationWithTickets(User user, List<ShowSeatAvailability> selectedSeats) {
         if (selectedSeats.isEmpty()) {
             throw new IllegalArgumentException("No seats selected for reservation");
         }
 
-        Show show = selectedSeats.get(0).getShow();
+        Show show = selectedSeats.getFirst().getShow();
 
         Reservation reservation = new Reservation();
         reservation.setUser(user);
