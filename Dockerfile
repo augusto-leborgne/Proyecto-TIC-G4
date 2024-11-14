@@ -20,4 +20,4 @@ RUN ./mvnw clean package -DskipTests
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación
-CMD ["java", "-jar", "target/tu-proyecto.jar"]
+CMD ["java", "-jar", "target/Proyecto-TIC-G4.jar"]
