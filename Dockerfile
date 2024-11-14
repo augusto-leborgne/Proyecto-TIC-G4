@@ -1,5 +1,5 @@
 # Utilizar una imagen de OpenJDK en Alpine (asegúrate de que Java 17 sea compatible)
-FROM openjdk:17-jdk-alpine
+FROM openjdk:21-jdk-alpine
 
 # Instalar Maven en Alpine
 RUN apk add --no-cache maven
