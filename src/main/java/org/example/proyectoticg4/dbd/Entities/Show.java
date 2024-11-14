@@ -20,7 +20,6 @@ public class Show {
     @ManyToOne
     @JoinColumn(name = "m_name", referencedColumnName = "m_name", nullable = false)
     @NotNull(message = "Movie cannot be null")
-    @Valid
     private Movie movie;
 
     @ManyToOne
