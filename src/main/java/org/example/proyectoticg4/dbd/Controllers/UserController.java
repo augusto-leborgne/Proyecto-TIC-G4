@@ -4,9 +4,9 @@ import org.example.proyectoticg4.dbd.Entities.Reservation;
 import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,53 +22,38 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        User user = userService.getUserById(id);
-        if (user != null){
-            return ResponseEntity.ok(user);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+    public User getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
     }
 
     @GetMapping("/reservations")
-    public ResponseEntity<List<Reservation>> getReservations(@RequestParam String userId) {
-        List<Reservation> reservations = userService.getReservations(userId);
-        if (reservations == null) {
-            return ResponseEntity.notFound().build();
-        }else {
-            return ResponseEntity.ok(reservations);
-        }
+    public List<Reservation> getReservations(@RequestParam String userId) {
+        return userService.getReservations(userId);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
-        if (userService.getUserById(user.getUserId()) != null) {
-            return ResponseEntity.badRequest().body("User with this email/username already exists");
+    public String register(@Valid @RequestBody User user) {
+        if (userService.existsByUserId(user.getUserId())) {
+            throw new IllegalArgumentException("User with this email/username already exists");
         }
 
         userService.registerUser(user);
-        return ResponseEntity.ok("User registered successfully");
+        return "User registered successfully";
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String userId, @RequestParam String password) {
+    public String login(@RequestParam String userId, @RequestParam String password) {
         User user = userService.getUserById(userId);
 
-        if (user != null) {
-            if (userService.verifyPassword(password, user.getPassword())) {
-                return ResponseEntity.ok("Login successful");
-            } else {
-                return ResponseEntity.status(401).body("Invalid credentials");
-            }
+        if (userService.verifyPassword(password, user.getPassword())) {
+            return "Login successful";
         } else {
-            return ResponseEntity.status(404).body("User not found");
+            throw new IllegalArgumentException("Invalid credentials");
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+    public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
-        return ResponseEntity.ok().build();
     }
 }

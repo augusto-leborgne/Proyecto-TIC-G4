@@ -1,26 +1,25 @@
 package org.example.proyectoticg4.dbd.Services;
 
 import org.example.proyectoticg4.dbd.Entities.Movie;
+import org.example.proyectoticg4.dbd.Exceptions.ResourceNotFoundException;
 import org.example.proyectoticg4.dbd.Repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-
     public List<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
-    public Optional<Movie> getMovieById(String movieId) {
-        return movieRepository.findById(movieId);
+    public Movie getMovieById(String movieId) {
+        return movieRepository.findById(movieId)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie with ID " + movieId + " not found"));
     }
 
     public void saveMovie(Movie movie) {
@@ -28,24 +27,22 @@ public class MovieService {
     }
 
     public void deleteMovie(String movieId) {
+        if (!movieRepository.existsById(movieId)) {
+            throw new ResourceNotFoundException("Movie with ID " + movieId + " not found");
+        }
         movieRepository.deleteById(movieId);
     }
 
     public Movie updateMovie(String movieId, Movie updatedMovie) {
-        Optional<Movie> existingMovie = movieRepository.findById(movieId);
-        if (existingMovie.isPresent()) {
-            Movie movie = existingMovie.get();
-            movie.setDuration(updatedMovie.getDuration());
-            movie.setDirector(updatedMovie.getDirector());
-            movie.setMinimumAge(updatedMovie.getMinimumAge());
-            return movieRepository.save(movie);
-        } else {
-            return null;
-        }
+        Movie existingMovie = getMovieById(movieId);
+        existingMovie.setDuration(updatedMovie.getDuration());
+        existingMovie.setDirector(updatedMovie.getDirector());
+        existingMovie.setMinimumAge(updatedMovie.getMinimumAge());
+        existingMovie.setImage(updatedMovie.getImage());
+        return movieRepository.save(existingMovie);
     }
 
     public List<byte[]> getAllImages() {
         return movieRepository.findAllImages();
     }
-
 }

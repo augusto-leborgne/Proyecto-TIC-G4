@@ -2,7 +2,8 @@ package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class Show {
 
     @ManyToOne
     @JoinColumn(name = "m_name", referencedColumnName = "m_name", nullable = false)
+    @NotNull(message = "Movie cannot be null")
+    @Valid
     private Movie movie;
 
     @ManyToOne
@@ -25,16 +28,22 @@ public class Show {
             @JoinColumn(name = "ci_number", referencedColumnName = "cinemaNumber", nullable = false),
             @JoinColumn(name = "h_number", referencedColumnName = "hNumber", nullable = false)
     })
+    @NotNull(message = "Hall cannot be null")
+    @Valid
     private Hall hall;
 
     @Column(name = "show_time", nullable = false)
+    @NotNull(message = "Show time cannot be null")
     private LocalDateTime showTime;
 
     @JsonIgnore
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Valid
     private List<ShowSeatAvailability> showSeatAvailabilities = new ArrayList<>();
 
     @Column(name = "price", nullable = false)
+    @NotNull(message = "Price cannot be null")
+    @PositiveOrZero(message = "Price cannot be negative")
     private Integer price;
 
     public Integer getShowCode() {

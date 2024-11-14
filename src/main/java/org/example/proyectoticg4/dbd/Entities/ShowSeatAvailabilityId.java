@@ -1,13 +1,19 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.Embeddable;
-
+import jakarta.validation.constraints.Positive;
 import java.io.Serializable;
 
 @Embeddable
 public class ShowSeatAvailabilityId implements Serializable {
+
+    @Positive(message = "Show code must be positive")
     private Integer showCode;
+
+    @Positive(message = "Seat column must be positive")
     private Integer seatColumn;
+
+    @Positive(message = "Seat row must be positive")
     private Integer seatRow;
 
     public ShowSeatAvailabilityId() {

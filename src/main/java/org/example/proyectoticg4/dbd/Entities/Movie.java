@@ -1,10 +1,9 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name = "movies")
@@ -12,15 +11,21 @@ public class Movie {
 
     @Id
     @Column(name = "m_name")
+    @NotBlank(message = "Movie name cannot be blank")
     private String movieId;
 
     @Column(name = "duration")
+    @NotNull(message = "Duration cannot be null")
+    @Positive(message = "Duration must be positive")
     private Integer duration;
 
     @Column(name = "director")
+    @NotBlank(message = "Director cannot be blank")
     private String director;
 
     @Column(name = "minimum_age")
+    @NotNull(message = "Minimum age cannot be null")
+    @Min(value = 0, message = "Minimum age cannot be negative")
     private Integer minimumAge;
 
     @JsonIgnore

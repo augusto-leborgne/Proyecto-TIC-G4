@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.example.proyectoticg4.dbd.Entities.*;
-import org.example.proyectoticg4.dbd.Repositories.SeatRepository;
+import org.example.proyectoticg4.dbd.Exceptions.ResourceNotFoundException;
 import org.example.proyectoticg4.dbd.Repositories.ShowRepository;
 import org.example.proyectoticg4.dbd.Repositories.ShowSeatAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,6 @@ public class ShowService {
     @PersistenceContext
     private EntityManager entityManager;
     @Autowired
-    private SeatRepository seatRepository;
-    @Autowired
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
     @Autowired
@@ -33,42 +31,36 @@ public class ShowService {
 
     @Transactional
     public Show createShowWithAvailableSeats(Movie movie, Hall hall, LocalDateTime showTime, Integer price) {
-        try {
-            Show show = new Show();
-            show.setMovie(movie);
-            show.setHall(hall);
-            show.setShowTime(showTime);
-            show.setPrice(price);
+        Show show = new Show();
+        show.setMovie(movie);
+        show.setHall(hall);
+        show.setShowTime(showTime);
+        show.setPrice(price);
 
-            Show savedShow = showRepository.save(show);
-            entityManager.detach(savedShow);
+        Show savedShow = showRepository.save(show);
+        entityManager.detach(savedShow);
 
-            List<Seat> seatsInHall = hall.getSeats();
+        List<Seat> seatsInHall = hall.getSeats();
 
-            List<ShowSeatAvailability> showSeatAvailabilities = seatsInHall.stream()
-                    .map(seat -> {
-                        ShowSeatAvailability seatAvailability = new ShowSeatAvailability();
-                        ShowSeatAvailabilityId seatAvailabilityId =
-                                new ShowSeatAvailabilityId(savedShow.getShowCode(), seat.getseatId());
+        List<ShowSeatAvailability> showSeatAvailabilities = seatsInHall.stream()
+                .map(seat -> {
+                    ShowSeatAvailability seatAvailability = new ShowSeatAvailability();
+                    ShowSeatAvailabilityId seatAvailabilityId =
+                            new ShowSeatAvailabilityId(savedShow.getShowCode(), seat.getseatId());
 
-                        seatAvailability.setId(seatAvailabilityId);
-                        seatAvailability.setShow(savedShow);
-                        seatAvailability.setAvailable(true);
-                        return seatAvailability;
-                    })
-                    .collect(Collectors.toList());
+                    seatAvailability.setId(seatAvailabilityId);
+                    seatAvailability.setShow(savedShow);
+                    seatAvailability.setAvailable(true);
+                    return seatAvailability;
+                })
+                .collect(Collectors.toList());
 
-            showSeatAvailabilityRepository.saveAll(showSeatAvailabilities);
-            showSeatAvailabilityRepository.flush();
+        showSeatAvailabilityRepository.saveAll(showSeatAvailabilities);
+        showSeatAvailabilityRepository.flush();
 
-            savedShow.setShowSeatAvailabilities(showSeatAvailabilities);
-            return savedShow;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        savedShow.setShowSeatAvailabilities(showSeatAvailabilities);
+        return savedShow;
     }
-
 
     public List<Show> getAllShows() {
         return showRepository.findAll();
@@ -83,10 +75,17 @@ public class ShowService {
     }
 
     public List<ShowSeatAvailability> findSeats(String movieId, Integer cinemaNumber, LocalDateTime showTime) {
-        return showRepository.findSeats(movieId, cinemaNumber, showTime);
+        List<ShowSeatAvailability> seats = showRepository.findSeats(movieId, cinemaNumber, showTime);
+        if (seats == null || seats.isEmpty()) {
+            throw new ResourceNotFoundException("Seats not found for the provided criteria");
+        }
+        return seats;
     }
 
     public void deleteShow(Integer showId) {
+        if (!showRepository.existsById(showId)) {
+            throw new ResourceNotFoundException("Show not found with ID: " + showId);
+        }
         showRepository.deleteById(showId);
     }
 }

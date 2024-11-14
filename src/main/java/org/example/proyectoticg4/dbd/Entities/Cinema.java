@@ -2,6 +2,7 @@ package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -11,12 +12,16 @@ public class Cinema {
 
     @Id
     @Column(name = "ci_number")
+    @NotNull(message = "Cinema number cannot be null")
     private Integer ciNumber;
 
     @Column(name = "neighborhood")
+    @NotBlank(message = "Neighborhood cannot be blank")
     private String neighborhood;
 
     @Column(name = "halls")
+    @NotNull(message = "Number of halls cannot be null")
+    @Positive(message = "Number of halls must be positive")
     private Integer halls;
 
     @JsonIgnore

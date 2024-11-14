@@ -2,12 +2,12 @@ package org.example.proyectoticg4.dbd.Services;
 
 import org.example.proyectoticg4.dbd.Entities.Seat;
 import org.example.proyectoticg4.dbd.Entities.SeatId;
+import org.example.proyectoticg4.dbd.Exceptions.ResourceNotFoundException;
 import org.example.proyectoticg4.dbd.Repositories.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SeatService {
@@ -19,8 +19,9 @@ public class SeatService {
         return seatRepository.findAll();
     }
 
-    public Optional<Seat> getSeatById(SeatId id) {
-        return seatRepository.findById(id);
+    public Seat getSeatById(SeatId id) {
+        return seatRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Seat not found with ID: " + id));
     }
 
     public Seat saveSeat(Seat seat) {
@@ -28,6 +29,9 @@ public class SeatService {
     }
 
     public void deleteSeat(SeatId id) {
+        if (!seatRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Seat not found with ID: " + id);
+        }
         seatRepository.deleteById(id);
     }
 }

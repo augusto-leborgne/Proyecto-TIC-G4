@@ -1,16 +1,18 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.Embeddable;
-
+import jakarta.validation.constraints.Positive;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 public class HallId implements Serializable {
 
+    @Positive(message = "Hall number must be positive")
     private int hNumber;
-    private int cinemaNumber;
 
+    @Positive(message = "Cinema number must be positive")
+    private int cinemaNumber;
 
     public HallId() {
     }

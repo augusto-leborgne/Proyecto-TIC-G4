@@ -1,7 +1,7 @@
 package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.*;
 import java.util.Date;
 import java.util.List;
 
@@ -11,21 +11,28 @@ public class User {
 
     @Id
     @Column(name = "id")
+    @NotBlank(message = "User ID cannot be blank")
     private String userId;
 
     @Column(name = "enc_password")
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
     @Column(name = "name")
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
     @Column(name = "lastName")
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
 
     @Column(name = "phone")
+    @Positive(message = "Phone number must be positive")
     private int phone;
 
     @Column(name = "birthDate")
+    @Past(message = "Birth date must be in the past")
     private Date birthDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

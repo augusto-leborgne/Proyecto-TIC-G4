@@ -2,7 +2,8 @@ package org.example.proyectoticg4.dbd.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -10,16 +11,20 @@ import java.util.List;
 public class Hall {
 
     @EmbeddedId
+    @NotNull(message = "Hall ID cannot be null")
+    @Valid
     private HallId hallId;
 
     @JsonIgnore
     @ManyToOne
     @MapsId("cinemaNumber")
     @JoinColumn(name = "cinemaNumber", referencedColumnName = "ci_number", insertable = false, updatable = false)
+    @NotNull(message = "Cinema cannot be null")
     private Cinema cinema;
 
     @JsonIgnore
     @OneToMany(mappedBy = "hall")
+    @Valid
     private List<Seat> seats;
 
     public HallId getHallId() {

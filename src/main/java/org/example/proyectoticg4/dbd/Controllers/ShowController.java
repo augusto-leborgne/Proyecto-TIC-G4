@@ -8,13 +8,11 @@ import org.example.proyectoticg4.dbd.Services.HallService;
 import org.example.proyectoticg4.dbd.Services.MovieService;
 import org.example.proyectoticg4.dbd.Services.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/shows")
@@ -32,30 +30,21 @@ public class ShowController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Show>> getAllShows() {
-        List<Show> shows = showService.getAllShows();
-        return ResponseEntity.ok(shows);
+    public List<Show> getAllShows() {
+        return showService.getAllShows();
     }
 
     @GetMapping("/cinema/{cinemaNumber}")
-    public ResponseEntity<List<Movie>> getMoviesByCinemaNumber(@PathVariable int cinemaNumber) {
+    public List<Movie> getMoviesByCinemaNumber(@PathVariable int cinemaNumber) {
         List<Show> shows = showService.findShowsByCinemaNumber(cinemaNumber);
-
-        if (shows.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<Movie> moviesList = new ArrayList<>();
-
-        for (Show show : shows) {
-            moviesList.add(show.getMovie());
-        }
-
-        return ResponseEntity.ok(moviesList);
+        return shows.stream()
+                .map(Show::getMovie)
+                .distinct()
+                .toList();
     }
 
     @GetMapping("/showtimes")
-    public ResponseEntity<List<LocalDateTime>> getShowtimesByMovieAndCinema(
+    public List<LocalDateTime> getShowtimesByMovieAndCinema(
             @RequestParam("movieId") String movieId,
             @RequestParam("cinemaNumber") Integer cinemaNumber) {
 
@@ -64,19 +53,13 @@ public class ShowController {
         }
         List<Show> shows = showService.findShowsByMovieAndCinema(movieId, cinemaNumber);
 
-        if (shows.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<LocalDateTime> showtimes = shows.stream()
+        return shows.stream()
                 .map(Show::getShowTime)
                 .toList();
-
-        return ResponseEntity.ok(showtimes);
     }
 
     @GetMapping("/seats")
-    public ResponseEntity<List<ShowSeatAvailability>> getShowCode(
+    public List<ShowSeatAvailability> getShowSeats(
             @RequestParam("movieId") String movieId,
             @RequestParam("cinemaNumber") Integer cinemaNumber,
             @RequestParam("showTime") LocalDateTime showTime) {
@@ -84,44 +67,29 @@ public class ShowController {
         if (movieId == null || cinemaNumber == null || showTime == null) {
             throw new IllegalArgumentException("Movie ID, Cinema Number and Show Time must be provided.");
         }
-        List<ShowSeatAvailability> seats = showService.findSeats(movieId, cinemaNumber, showTime);
-
-        if (seats == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-
-        return ResponseEntity.ok(seats);
+        return showService.findSeats(movieId, cinemaNumber, showTime);
     }
 
     @PostMapping
-    public ResponseEntity<String> createShow(@RequestBody Show show) {
-        try {
-            Optional<Movie> existingMovie = movieService.getMovieById(show.getMovie().getMovieId());
-            if (existingMovie.isEmpty()) {
-                return ResponseEntity.badRequest().body("Movie not found");
-            }
+    public String createShow(@Valid @RequestBody Show show) {
+        Movie existingMovie = movieService.getMovieById(show.getMovie().getMovieId());
+        Hall existingHall = hallService.getHallById(show.getHall().getHallId());
 
-            Optional<Hall> existingHall = hallService.getHallById(show.getHall().getHallId());
-            if (existingHall.isEmpty()) {
-                return ResponseEntity.badRequest().body("Hall not found");
-            }
+        show.setMovie(existingMovie);
+        show.setHall(existingHall);
 
-            show.setMovie(existingMovie.get());
-            show.setHall(existingHall.get());
+        Show savedShow = showService.createShowWithAvailableSeats(
+                existingMovie,
+                existingHall,
+                show.getShowTime(),
+                show.getPrice()
+        );
 
-            Show savedShow = showService.createShowWithAvailableSeats(existingMovie.get(), existingHall.get(), show.getShowTime(), show.getPrice());
-
-            return ResponseEntity.ok("Show created with ID: " + savedShow.getShowCode());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
-        }
+        return "Show created with ID: " + savedShow.getShowCode();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteShow(@PathVariable Integer id) {
+    public void deleteShow(@PathVariable Integer id) {
         showService.deleteShow(id);
-        return ResponseEntity.ok().build();
     }
 }

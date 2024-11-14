@@ -1,15 +1,12 @@
 package org.example.proyectoticg4.dbd.Controllers;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.example.proyectoticg4.dbd.Entities.Hall;
 import org.example.proyectoticg4.dbd.Entities.HallId;
 import org.example.proyectoticg4.dbd.Services.HallService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/halls")
@@ -23,48 +20,34 @@ public class HallController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Hall>> getAllHalls() {
-        List<Hall> halls = hallService.getAllHalls();
-        return ResponseEntity.ok(halls);
+    public List<Hall> getAllHalls() {
+        return hallService.getAllHalls();
     }
 
     @GetMapping("/{hallNumber}/{cinemaNumber}")
-    public ResponseEntity<Hall> getHallById(@PathVariable Integer hallNumber,
-                                            @PathVariable Integer cinemaNumber) {
+    public Hall getHallById(@PathVariable Integer hallNumber,
+                            @PathVariable Integer cinemaNumber) {
         HallId hallId = new HallId(hallNumber, cinemaNumber);
-        Optional<Hall> hall = hallService.getHallById(hallId);
-        return hall.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return hallService.getHallById(hallId);
     }
 
     @PostMapping
-    public ResponseEntity<Hall> createHall(@RequestBody Hall hall) {
-        Hall createdHall = hallService.createHall(hall);
-        return ResponseEntity.ok(createdHall);
+    public Hall createHall(@RequestBody Hall hall) {
+        return hallService.createHall(hall);
     }
 
     @PutMapping("/{hallNumber}/{cinemaNumber}")
-    public ResponseEntity<Hall> updateHall(@PathVariable Integer hallNumber,
-                                           @PathVariable Integer cinemaNumber,
-                                           @RequestBody Hall updatedHall) {
+    public Hall updateHall(@PathVariable Integer hallNumber,
+                           @PathVariable Integer cinemaNumber,
+                           @RequestBody Hall updatedHall) {
         HallId hallId = new HallId(hallNumber, cinemaNumber);
-        try {
-            Hall updated = hallService.updateHall(hallId, updatedHall);
-            return ResponseEntity.ok(updated);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return hallService.updateHall(hallId, updatedHall);
     }
 
     @DeleteMapping("/{hallNumber}/{cinemaNumber}")
-    public ResponseEntity<Void> deleteHall(@PathVariable Integer hallNumber,
-                                           @PathVariable Integer cinemaNumber) {
+    public void deleteHall(@PathVariable Integer hallNumber,
+                           @PathVariable Integer cinemaNumber) {
         HallId hallId = new HallId(hallNumber, cinemaNumber);
-        try {
-            hallService.deleteHall(hallId);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+        hallService.deleteHall(hallId);
     }
 }

@@ -1,16 +1,14 @@
 package org.example.proyectoticg4.dbd.Controllers;
 
 import org.example.proyectoticg4.dbd.Entities.Reservation;
-import org.example.proyectoticg4.dbd.Entities.ShowSeatAvailability;
 import org.example.proyectoticg4.dbd.Entities.ShowSeatAvailabilityId;
-import org.example.proyectoticg4.dbd.Entities.User;
 import org.example.proyectoticg4.dbd.Services.ReservationService;
 import org.example.proyectoticg4.dbd.Services.ShowSeatAvailabilityService;
 import org.example.proyectoticg4.dbd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,38 +25,24 @@ public class ReservationController {
     private ShowSeatAvailabilityService showSeatAvailabilityService;
 
     @GetMapping
-    public ResponseEntity<List<Reservation>> getAllReservations() {
-        return ResponseEntity.ok(reservationService.getAllReservations());
+    public List<Reservation> getAllReservations() {
+        return reservationService.getAllReservations();
     }
 
     @PostMapping()
-    public ResponseEntity<Reservation> createReservation(
+    public Reservation createReservation(
             @RequestParam String userId,
-            @RequestBody List<ShowSeatAvailabilityId> selectedSeatsId) {
+            @Valid @RequestBody List<ShowSeatAvailabilityId> selectedSeatsId) {
 
-        User user = userService.getUserById(userId);
-        if (user == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
+        var user = userService.getUserById(userId);
+        var selectedSeats = showSeatAvailabilityService.findSeatsByIds(selectedSeatsId);
 
-        if (selectedSeatsId.isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
-        }
-
-        List<ShowSeatAvailability> selectedSeats = showSeatAvailabilityService.findSeatsByIds(selectedSeatsId);
-
-        Reservation reservation = reservationService.createReservationWithTickets(user, selectedSeats);
-        return ResponseEntity.ok(reservation);
+        return reservationService.createReservationWithTickets(user, selectedSeats);
     }
 
     @DeleteMapping()
-    public ResponseEntity<Void> deleteReservation(@RequestParam Long reservationId) {
-        Reservation reservation = reservationService.getReservationById(reservationId);
-        if (reservation == null) {
-            return ResponseEntity.notFound().build();
-        }
-
+    public void deleteReservation(@RequestParam Long reservationId) {
+        var reservation = reservationService.getReservationById(reservationId);
         reservationService.deleteReservation(reservation);
-        return ResponseEntity.ok().build();
     }
 }
