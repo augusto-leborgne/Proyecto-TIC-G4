@@ -1,5 +1,10 @@
-# Use a compatible Maven image with Java 21
-FROM maven:3.9.3-eclipse-temurin-21
+# Use OpenJDK 21 as the base image
+FROM eclipse-temurin:21
+
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
 
 # Configure the working directory
 WORKDIR /app
