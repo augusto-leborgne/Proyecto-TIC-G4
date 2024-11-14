@@ -15,17 +15,12 @@ public class Movie {
     private String movieId;
 
     @Column(name = "duration")
-    @NotNull(message = "Duration cannot be null")
-    @Positive(message = "Duration must be positive")
     private Integer duration;
 
     @Column(name = "director")
-    @NotBlank(message = "Director cannot be blank")
     private String director;
 
     @Column(name = "minimum_age")
-    @NotNull(message = "Minimum age cannot be null")
-    @Min(value = 0, message = "Minimum age cannot be negative")
     private Integer minimumAge;
 
     @JsonIgnore
