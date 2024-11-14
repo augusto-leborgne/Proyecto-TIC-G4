@@ -1,17 +1,17 @@
-# Usar una imagen de Maven con Java 21
-FROM maven:3.8.6-eclipse-temurin-21
+# Use a compatible Maven image with Java 21
+FROM maven:3.9.3-eclipse-temurin-21
 
-# Configurar el directorio de trabajo
+# Configure the working directory
 WORKDIR /app
 
-# Copiar todos los archivos al contenedor
+# Copy all files to the container
 COPY . .
 
-# Construir el proyecto
+# Build the project
 RUN mvn clean package -DskipTests
 
-# Exponer el puerto 8080
+# Expose port 8080
 EXPOSE 8080
 
-# Comando para ejecutar la aplicación
+# Command to run the application
 CMD ["java", "-jar", "target/Proyecto-TIC-G4.jar"]
