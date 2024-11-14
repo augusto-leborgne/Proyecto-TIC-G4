@@ -2,7 +2,7 @@ package org.example.proyectoticg4.dbd.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
+import jakarta.validation.constraints.Positive;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,12 +10,19 @@ import java.util.Objects;
 public class SeatId implements Serializable {
 
     @Column(name = "hall_number")
+    @Positive(message = "Hall number must be positive")
     private int hallNumber;
+
     @Column(name = "cinema_number")
+    @Positive(message = "Cinema number must be positive")
     private int cinemaNumber;
+
     @Column(name = "seat_column")
+    @Positive(message = "Seat column must be positive")
     private int seatColumn;
+
     @Column(name = "seat_row")
+    @Positive(message = "Seat row must be positive")
     private int seatRow;
 
     public SeatId() {

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class HallService {
@@ -19,13 +18,13 @@ public class HallService {
         this.hallRepository = hallRepository;
     }
 
-
     public List<Hall> getAllHalls() {
         return hallRepository.findAll();
     }
 
-    public Optional<Hall> getHallById(HallId hallId) {
-        return hallRepository.findById(hallId);
+    public Hall getHallById(HallId hallId) {
+        return hallRepository.findById(hallId)
+                .orElseThrow(() -> new EntityNotFoundException("Hall not found with ID: " + hallId));
     }
 
     public Hall createHall(Hall hall) {
@@ -33,11 +32,10 @@ public class HallService {
     }
 
     public Hall updateHall(HallId hallId, Hall updatedHall) {
-        return hallRepository.findById(hallId).map(existingHall -> {
-            existingHall.setCinema(updatedHall.getCinema());
-            existingHall.setSeats(updatedHall.getSeats());
-            return hallRepository.save(existingHall);
-        }).orElseThrow(() -> new EntityNotFoundException("Hall not found!"));
+        Hall existingHall = getHallById(hallId);
+        existingHall.setCinema(updatedHall.getCinema());
+        existingHall.setSeats(updatedHall.getSeats());
+        return hallRepository.save(existingHall);
     }
 
     public void deleteHall(HallId hallId) {

@@ -1,12 +1,13 @@
 package org.example.proyectoticg4.dbd.Services;
 
-
 import org.example.proyectoticg4.dbd.Entities.*;
+import org.example.proyectoticg4.dbd.Exceptions.ResourceNotFoundException;
 import org.example.proyectoticg4.dbd.Repositories.ReservationRepository;
 import org.example.proyectoticg4.dbd.Repositories.ShowSeatAvailabilityRepository;
 import org.example.proyectoticg4.dbd.Repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,8 +25,12 @@ public class ReservationService {
     @Autowired
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
 
-
+    @Transactional
     public Reservation createReservationWithTickets(User user, List<ShowSeatAvailability> selectedSeats) {
+        if (selectedSeats.isEmpty()) {
+            throw new IllegalArgumentException("No seats selected for reservation");
+        }
+
         Show show = selectedSeats.getFirst().getShow();
 
         Reservation reservation = new Reservation();
@@ -33,10 +38,14 @@ public class ReservationService {
         reservation.setShow(show);
         reservation.setReservationTime(LocalDateTime.now());
         reservation.setTotal(selectedSeats.size() * show.getPrice());
-        
+
         List<Ticket> tickets = new ArrayList<>();
 
         for (ShowSeatAvailability seat : selectedSeats) {
+            if (!seat.getAvailable()) {
+                throw new IllegalArgumentException("Seat is already reserved: " + seat.getId());
+            }
+
             Ticket ticket = getTicket(seat, reservation);
 
             ticketRepository.save(ticket);
@@ -48,9 +57,7 @@ public class ReservationService {
         }
 
         reservation.setTickets(tickets);
-        reservation = reservationRepository.save(reservation);
-
-        return reservation;
+        return reservationRepository.save(reservation);
     }
 
     private static Ticket getTicket(ShowSeatAvailability seat, Reservation reservation) {
@@ -70,17 +77,21 @@ public class ReservationService {
     }
 
     public Reservation getReservationById(Long id) {
-        return reservationRepository.findById(id).orElse(null);
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reservation with ID " + id + " not found"));
     }
 
     public void deleteReservation(Reservation reservation) {
         List<Ticket> tickets = reservation.getTickets();
 
         for (Ticket ticket : tickets) {
+            ShowSeatAvailabilityId seatId = new ShowSeatAvailabilityId(
+                    reservation.getShow().getShowCode(),
+                    new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())
+            );
 
-            ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(
-                            new ShowSeatAvailabilityId(reservation.getShow().getShowCode(), new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())))
-                    .orElseThrow(() -> new RuntimeException("Seat not found"));
+            ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(seatId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Seat not found for ticket: " + ticket.gettCode()));
 
             seat.setAvailable(true);
             showSeatAvailabilityRepository.save(seat);
