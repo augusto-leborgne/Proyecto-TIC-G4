@@ -1,8 +1,8 @@
-# Cambiar a una versión disponible de OpenJDK en Alpine
-FROM openjdk:17-jdk-alpine
+# Usar una imagen de OpenJDK 21
+FROM openjdk:21-jdk
 
-# Instalar Maven en Alpine
-RUN apk add --no-cache maven
+# Instalar Maven
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
 
 # Configurar el directorio de trabajo
 WORKDIR /app
