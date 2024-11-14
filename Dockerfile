@@ -1,8 +1,5 @@
-# Usar una imagen de OpenJDK 21
-FROM openjdk:21-jdk
-
-# Instalar Maven
-RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
+# Usar una imagen de Maven con Java 21
+FROM maven:3.8.6-eclipse-temurin-21
 
 # Configurar el directorio de trabajo
 WORKDIR /app
@@ -10,11 +7,8 @@ WORKDIR /app
 # Copiar todos los archivos al contenedor
 COPY . .
 
-# Dar permisos de ejecución al script `mvnw`
-RUN chmod +x mvnw
-
 # Construir el proyecto
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Exponer el puerto 8080
 EXPOSE 8080
