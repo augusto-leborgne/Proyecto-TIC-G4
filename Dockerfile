@@ -19,4 +19,4 @@ RUN mvn clean package -DskipTests
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "target/Proyecto-TIC-G4.jar"]
+CMD ["java", "-jar", "target/Proyecto-TIC-G4-3.3.3.jar"]
