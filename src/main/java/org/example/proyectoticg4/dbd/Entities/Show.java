@@ -20,7 +20,6 @@ public class Show {
     @ManyToOne
     @JoinColumn(name = "m_name", referencedColumnName = "m_name", nullable = false)
     @NotNull(message = "Movie cannot be null")
-    @Valid
     private Movie movie;
 
     @ManyToOne
@@ -29,7 +28,6 @@ public class Show {
             @JoinColumn(name = "h_number", referencedColumnName = "hNumber", nullable = false)
     })
     @NotNull(message = "Hall cannot be null")
-    @Valid
     private Hall hall;
 
     @Column(name = "show_time", nullable = false)
@@ -38,7 +36,6 @@ public class Show {
 
     @JsonIgnore
     @OneToMany(mappedBy = "show", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Valid
     private List<ShowSeatAvailability> showSeatAvailabilities = new ArrayList<>();
 
     @Column(name = "price", nullable = false)

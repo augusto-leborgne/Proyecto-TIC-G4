@@ -19,14 +19,12 @@ public class Reservation {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "show_cod", referencedColumnName = "show_cod")
     @NotNull(message = "Show cannot be null")
-    @Valid
     private Show show;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotNull(message = "User cannot be null")
-    @Valid
     private User user;
 
     @Column(name = "reservation_time")
@@ -39,7 +37,6 @@ public class Reservation {
     private Integer total;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    @Valid
     private List<Ticket> tickets;
 
     public Long getReservationId() {
