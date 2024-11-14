@@ -37,7 +37,6 @@ public class Reservation {
     private Integer total;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
-    @Valid
     private List<Ticket> tickets;
 
     public Long getReservationId() {
