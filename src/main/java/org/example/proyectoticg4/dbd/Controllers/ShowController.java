@@ -92,4 +92,9 @@ public class ShowController {
     public void deleteShow(@PathVariable Integer id) {
         showService.deleteShow(id);
     }
+
+    @DeleteMapping("/all")
+    public void deleteAllShows() {
+        showService.deleteAllShows();
+    }
 }

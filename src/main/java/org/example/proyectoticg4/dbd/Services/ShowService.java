@@ -88,4 +88,8 @@ public class ShowService {
         }
         showRepository.deleteById(showId);
     }
+
+    public void deleteAllShows() {
+        showRepository.deleteAll();
+    }
 }
