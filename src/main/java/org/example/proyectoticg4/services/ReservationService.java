@@ -97,6 +97,11 @@ public class ReservationService {
             showSeatAvailabilityRepository.save(seat);
         }
 
+        User user = reservation.getUser();
+        List<Reservation> reservations = user.getReservations();
+        reservations.remove(reservation);
+        user.setReservations(reservations);
+
         reservationRepository.delete(reservation);
     }
 }
