@@ -1,5 +1,6 @@
 package org.example.proyectoticg4.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -39,6 +40,7 @@ public class User {
     @Past(message = "Birth date must be in the past")
     private Date birthDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
 

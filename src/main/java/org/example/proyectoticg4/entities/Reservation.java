@@ -22,7 +22,6 @@ public class    Reservation {
     @NotNull(message = "Show cannot be null")
     private Show show;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @NotNull(message = "User cannot be null")
