@@ -1,11 +1,13 @@
-package org.example.proyectoticg4.controllers;
+package org.example.proyectoticg4;
 
+import org.example.proyectoticg4.controllers.CinemaController;
 import org.example.proyectoticg4.entities.Cinema;
 import org.example.proyectoticg4.services.CinemaService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -98,7 +100,7 @@ public class CinemaControllerTest {
         savedCinema.setNeighborhood("Centro");
 
         // Configuración del mock
-        when(cinemaService.createCinema(any(Cinema.class))).thenReturn(savedCinema);
+        when(cinemaService.createCinema(Mockito.any())).thenReturn(savedCinema);
 
         // Configuración de MockMvc
         mockMvc = MockMvcBuilders.standaloneSetup(cinemaController).build();
@@ -114,7 +116,7 @@ public class CinemaControllerTest {
                 .andExpect(jsonPath("$.ciNumber", is(1)))
                 .andExpect(jsonPath("$.neighborhood", is("Centro")));
 
-        verify(cinemaService, times(1)).createCinema(any(Cinema.class));
+        verify(cinemaService, times(1)).createCinema(Mockito.any());
     }
 
     @Test
@@ -128,7 +130,7 @@ public class CinemaControllerTest {
         updatedCinema.setNeighborhood("Norte");
 
         // Configuración del mock
-        when(cinemaService.updateCinema(eq(1), any(Cinema.class))).thenReturn(updatedCinema);
+        when(cinemaService.updateCinema(eq(1), Mockito.any())).thenReturn(updatedCinema);
 
         // Configuración de MockMvc
         mockMvc = MockMvcBuilders.standaloneSetup(cinemaController).build();
@@ -144,7 +146,7 @@ public class CinemaControllerTest {
                 .andExpect(jsonPath("$.ciNumber", is(1)))
                 .andExpect(jsonPath("$.neighborhood", is("Norte")));
 
-        verify(cinemaService, times(1)).updateCinema(eq(1), any(Cinema.class));
+        verify(cinemaService, times(1)).updateCinema(eq(1), Mockito.any());
     }
 
     @Test

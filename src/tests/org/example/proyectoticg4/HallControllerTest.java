@@ -1,6 +1,7 @@
-package org.example.proyectoticg4.controllers;
+package org.example.proyectoticg4;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.proyectoticg4.controllers.HallController;
 import org.example.proyectoticg4.entities.Cinema;
 import org.example.proyectoticg4.entities.Hall;
 import org.example.proyectoticg4.entities.HallId;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,12 +49,10 @@ public class HallControllerTest {
     public void testGetAllHalls() throws Exception {
         // Datos de prueba
         Hall hall1 = new Hall();
-        hall1.setId(new HallId(1, 1));
-        hall1.setCapacity(100);
+        hall1.setHallId(new HallId(1, 1));
 
         Hall hall2 = new Hall();
-        hall2.setId(new HallId(2, 1));
-        hall2.setCapacity(150);
+        hall2.setHallId(new HallId(2, 1));
 
         List<Hall> halls = Arrays.asList(hall1, hall2);
 
@@ -65,10 +65,8 @@ public class HallControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id.hNumber", is(1)))
                 .andExpect(jsonPath("$[0].id.ciNumber", is(1)))
-                .andExpect(jsonPath("$[0].capacity", is(100)))
                 .andExpect(jsonPath("$[1].id.hNumber", is(2)))
-                .andExpect(jsonPath("$[1].id.ciNumber", is(1)))
-                .andExpect(jsonPath("$[1].capacity", is(150)));
+                .andExpect(jsonPath("$[1].id.ciNumber", is(1)));
 
         verify(hallService, times(1)).getAllHalls();
     }
@@ -78,8 +76,7 @@ public class HallControllerTest {
         // Datos de prueba
         HallId hallId = new HallId(1, 1);
         Hall hall = new Hall();
-        hall.setId(hallId);
-        hall.setCapacity(100);
+        hall.setHallId(hallId);
 
         // Configuración del mock
         when(hallService.getHallById(eq(hallId))).thenReturn(hall);
@@ -88,8 +85,7 @@ public class HallControllerTest {
         mockMvc.perform(get("/api/halls/1/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id.hNumber", is(1)))
-                .andExpect(jsonPath("$.id.ciNumber", is(1)))
-                .andExpect(jsonPath("$.capacity", is(100)));
+                .andExpect(jsonPath("$.id.ciNumber", is(1)));
 
         verify(hallService, times(1)).getHallById(eq(hallId));
     }
@@ -98,18 +94,16 @@ public class HallControllerTest {
     public void testCreateHall() throws Exception {
         // Datos de prueba
         Hall hall = new Hall();
-        hall.setCapacity(100);
         Cinema cinema = new Cinema();
         cinema.setCiNumber(1);
         hall.setCinema(cinema);
 
         Hall savedHall = new Hall();
-        savedHall.setId(new HallId(1, 1));
-        savedHall.setCapacity(100);
+        savedHall.setHallId(new HallId(1, 1));
         savedHall.setCinema(cinema);
 
         // Configuración del mock
-        when(hallService.createHall(any(Hall.class))).thenReturn(savedHall);
+        when(hallService.createHall(Mockito.any())).thenReturn(savedHall);
 
         // Conversión del objeto a JSON
         String json = mapper.writeValueAsString(hall);
@@ -120,10 +114,9 @@ public class HallControllerTest {
                         .content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id.hNumber", is(1)))
-                .andExpect(jsonPath("$.id.ciNumber", is(1)))
-                .andExpect(jsonPath("$.capacity", is(100)));
+                .andExpect(jsonPath("$.id.ciNumber", is(1)));
 
-        verify(hallService, times(1)).createHall(any(Hall.class));
+        verify(hallService, times(1)).createHall(Mockito.any());
     }
 
     @Test
@@ -131,14 +124,12 @@ public class HallControllerTest {
         // Datos de prueba
         HallId hallId = new HallId(1, 1);
         Hall updatedHall = new Hall();
-        updatedHall.setCapacity(150);
 
         Hall returnedHall = new Hall();
-        returnedHall.setId(hallId);
-        returnedHall.setCapacity(150);
+        returnedHall.setHallId(hallId);
 
         // Configuración del mock
-        when(hallService.updateHall(eq(hallId), any(Hall.class))).thenReturn(returnedHall);
+        when(hallService.updateHall(eq(hallId), Mockito.any())).thenReturn(returnedHall);
 
         // Conversión del objeto a JSON
         String json = mapper.writeValueAsString(updatedHall);
@@ -149,10 +140,9 @@ public class HallControllerTest {
                         .content(json))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id.hNumber", is(1)))
-                .andExpect(jsonPath("$.id.ciNumber", is(1)))
-                .andExpect(jsonPath("$.capacity", is(150)));
+                .andExpect(jsonPath("$.id.ciNumber", is(1)));
 
-        verify(hallService, times(1)).updateHall(eq(hallId), any(Hall.class));
+        verify(hallService, times(1)).updateHall(eq(hallId), Mockito.any());
     }
 
     @Test

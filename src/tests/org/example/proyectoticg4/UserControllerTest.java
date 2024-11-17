@@ -1,6 +1,7 @@
-package org.example.proyectoticg4.controllers;
+package org.example.proyectoticg4;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.proyectoticg4.controllers.UserController;
 import org.example.proyectoticg4.entities.Reservation;
 import org.example.proyectoticg4.entities.User;
 import org.example.proyectoticg4.services.UserService;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -94,12 +95,12 @@ public class UserControllerTest {
         // Test data
         String userId = "user1";
         Reservation reservation1 = new Reservation();
-        reservation1.setId(1L);
-        reservation1.setTotal(100.0);
+        reservation1.setReservationId(1L);
+        reservation1.setTotal(100);
 
         Reservation reservation2 = new Reservation();
-        reservation2.setId(2L);
-        reservation2.setTotal(200.0);
+        reservation2.setReservationId(2L);
+        reservation2.setTotal(200);
 
         List<Reservation> reservations = Arrays.asList(reservation1, reservation2);
 
@@ -128,7 +129,7 @@ public class UserControllerTest {
 
         // Mock configuration
         when(userService.existsByUserId("user1")).thenReturn(false);
-        doNothing().when(userService).registerUser(any(User.class));
+        doNothing().when(userService).registerUser(Mockito.any(User.class));
 
         // Convert object to JSON
         String json = mapper.writeValueAsString(user);
@@ -141,7 +142,7 @@ public class UserControllerTest {
                 .andExpect(content().string("User registered successfully"));
 
         verify(userService, times(1)).existsByUserId("user1");
-        verify(userService, times(1)).registerUser(any(User.class));
+        verify(userService, times(1)).registerUser(Mockito.any(User.class));
     }
 
     @Test
@@ -165,7 +166,7 @@ public class UserControllerTest {
                 .andExpect(status().reason("User with this email/username already exists"));
 
         verify(userService, times(1)).existsByUserId("user1");
-        verify(userService, times(0)).registerUser(any(User.class));
+        verify(userService, times(0)).registerUser(Mockito.any(User.class));
     }
 
     @Test

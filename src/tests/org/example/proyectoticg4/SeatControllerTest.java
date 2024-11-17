@@ -1,6 +1,7 @@
-package org.example.proyectoticg4.controllers;
+package org.example.proyectoticg4;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.proyectoticg4.controllers.SeatController;
 import org.example.proyectoticg4.entities.Seat;
 import org.example.proyectoticg4.entities.SeatId;
 import org.example.proyectoticg4.services.SeatService;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,10 +48,10 @@ public class SeatControllerTest {
     public void testGetAllSeats() throws Exception {
         // Datos de prueba
         Seat seat1 = new Seat();
-        seat1.setSeatId(new SeatId(1, 1, 'A', 1));
+        seat1.setseatId(new SeatId(1, 1, 1, 1));
 
         Seat seat2 = new Seat();
-        seat2.setSeatId(new SeatId(1, 1, 'A', 2));
+        seat2.setseatId(new SeatId(1, 1, 1, 2));
 
         List<Seat> seats = Arrays.asList(seat1, seat2);
 
@@ -62,7 +64,7 @@ public class SeatControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].seatId.hNumber", is(1)))
                 .andExpect(jsonPath("$[0].seatId.ciNumber", is(1)))
-                .andExpect(jsonPath("$[0].seatId.seatColumn", is("A")))
+                .andExpect(jsonPath("$[0].seatId.seatColumn", is(1)))
                 .andExpect(jsonPath("$[0].seatId.seatRow", is(1)))
                 .andExpect(jsonPath("$[1].seatId.seatRow", is(2)));
 
@@ -72,9 +74,9 @@ public class SeatControllerTest {
     @Test
     public void testGetSeatById() throws Exception {
         // Datos de prueba
-        SeatId seatId = new SeatId(1, 1, 'A', 1);
+        SeatId seatId = new SeatId(1, 1, 1, 1);
         Seat seat = new Seat();
-        seat.setSeatId(seatId);
+        seat.setseatId(seatId);
 
         // Configuración del mock
         when(seatService.getSeatById(eq(seatId))).thenReturn(seat);
@@ -84,7 +86,7 @@ public class SeatControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.seatId.hNumber", is(1)))
                 .andExpect(jsonPath("$.seatId.ciNumber", is(1)))
-                .andExpect(jsonPath("$.seatId.seatColumn", is("A")))
+                .andExpect(jsonPath("$.seatId.seatColumn", is(1)))
                 .andExpect(jsonPath("$.seatId.seatRow", is(1)));
 
         verify(seatService, times(1)).getSeatById(eq(seatId));
@@ -94,11 +96,11 @@ public class SeatControllerTest {
     public void testCreateSeat() throws Exception {
         // Datos de prueba
         Seat seat = new Seat();
-        SeatId seatId = new SeatId(1, 1, 'A', 1);
-        seat.setSeatId(seatId);
+        SeatId seatId = new SeatId(1, 1, 1, 1);
+        seat.setseatId(seatId);
 
         // Configuración del mock
-        when(seatService.saveSeat(any(Seat.class))).thenReturn(seat);
+        when(seatService.saveSeat(Mockito.any(Seat.class))).thenReturn(seat);
 
         // Conversión del objeto a JSON
         String json = mapper.writeValueAsString(seat);
@@ -110,16 +112,16 @@ public class SeatControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.seatId.hNumber", is(1)))
                 .andExpect(jsonPath("$.seatId.ciNumber", is(1)))
-                .andExpect(jsonPath("$.seatId.seatColumn", is("A")))
+                .andExpect(jsonPath("$.seatId.seatColumn", is(1)))
                 .andExpect(jsonPath("$.seatId.seatRow", is(1)));
 
-        verify(seatService, times(1)).saveSeat(any(Seat.class));
+        verify(seatService, times(1)).saveSeat(Mockito.any(Seat.class));
     }
 
     @Test
     public void testDeleteSeat() throws Exception {
         // Datos de prueba
-        SeatId seatId = new SeatId(1, 1, 'A', 1);
+        SeatId seatId = new SeatId(1, 1, 1, 1);
 
         // Configuración del mock
         doNothing().when(seatService).deleteSeat(eq(seatId));

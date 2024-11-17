@@ -1,6 +1,7 @@
-package org.example.proyectoticg4.controllers;
+package org.example.proyectoticg4;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.proyectoticg4.controllers.ShowController;
 import org.example.proyectoticg4.entities.*;
 import org.example.proyectoticg4.services.HallService;
 import org.example.proyectoticg4.services.MovieService;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -87,11 +89,9 @@ public class ShowControllerTest {
 
         Movie movie1 = new Movie();
         movie1.setMovieId("M1");
-        movie1.setTitle("Inception");
 
         Movie movie2 = new Movie();
         movie2.setMovieId("M2");
-        movie2.setTitle("Interstellar");
 
         Show show1 = new Show();
         show1.setShowCode(1);
@@ -111,9 +111,7 @@ public class ShowControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].movieId", is("M1")))
-                .andExpect(jsonPath("$[0].title", is("Inception")))
-                .andExpect(jsonPath("$[1].movieId", is("M2")))
-                .andExpect(jsonPath("$[1].title", is("Interstellar")));
+                .andExpect(jsonPath("$[1].movieId", is("M2")));
 
         verify(showService, times(1)).findShowsByCinemaNumber(cinemaNumber);
     }
@@ -188,7 +186,7 @@ public class ShowControllerTest {
         show.setMovie(movie);
         show.setHall(hall);
         show.setShowTime(LocalDateTime.now());
-        show.setPrice(100.0);
+        show.setPrice(100);
 
         Show savedShow = new Show();
         savedShow.setShowCode(1);
@@ -200,7 +198,7 @@ public class ShowControllerTest {
         // Configuración del mock
         when(movieService.getMovieById("M1")).thenReturn(movie);
         when(hallService.getHallById(hallId)).thenReturn(hall);
-        when(showService.createShowWithAvailableSeats(eq(movie), eq(hall), any(LocalDateTime.class), eq(100.0))).thenReturn(savedShow);
+        when(showService.createShowWithAvailableSeats(eq(movie), eq(hall), Mockito.any(LocalDateTime.class), eq(100))).thenReturn(savedShow);
 
         // Conversión del objeto a JSON
         String json = mapper.writeValueAsString(show);
@@ -214,7 +212,7 @@ public class ShowControllerTest {
 
         verify(movieService, times(1)).getMovieById("M1");
         verify(hallService, times(1)).getHallById(hallId);
-        verify(showService, times(1)).createShowWithAvailableSeats(eq(movie), eq(hall), any(LocalDateTime.class), eq(100.0));
+        verify(showService, times(1)).createShowWithAvailableSeats(eq(movie), eq(hall), Mockito.any(LocalDateTime.class), eq(100));
     }
 
     @Test

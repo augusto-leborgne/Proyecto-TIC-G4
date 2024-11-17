@@ -1,7 +1,7 @@
-package org.example.proyectoticg4.controllers;
+package org.example.proyectoticg4;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.proyectoticg4.controllers.ReservationController;
 import org.example.proyectoticg4.entities.Reservation;
 import org.example.proyectoticg4.entities.ShowSeatAvailability;
 import org.example.proyectoticg4.entities.ShowSeatAvailabilityId;
@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -58,12 +57,12 @@ public class ReservationControllerTest {
     public void testGetAllReservations() throws Exception {
         // Datos de prueba
         Reservation reservation1 = new Reservation();
-        reservation1.setId(1L);
-        reservation1.setTotal(100.0);
+        reservation1.setReservationId(1L);
+        reservation1.setTotal(100);
 
         Reservation reservation2 = new Reservation();
-        reservation2.setId(2L);
-        reservation2.setTotal(150.0);
+        reservation2.setReservationId(2L);
+        reservation2.setTotal(150);
 
         List<Reservation> reservations = Arrays.asList(reservation1, reservation2);
 
@@ -75,9 +74,9 @@ public class ReservationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].total", is(100.0)))
+                .andExpect(jsonPath("$[0].total", is(100)))
                 .andExpect(jsonPath("$[1].id", is(2)))
-                .andExpect(jsonPath("$[1].total", is(150.0)));
+                .andExpect(jsonPath("$[1].total", is(150)));
 
         verify(reservationService, times(1)).getAllReservations();
     }
@@ -91,11 +90,9 @@ public class ReservationControllerTest {
 
         ShowSeatAvailabilityId seatId1 = new ShowSeatAvailabilityId();
         seatId1.setShowCode(1);
-        seatId1.setSeatId(null); // Asumiendo que SeatId es otro objeto complejo
 
         ShowSeatAvailabilityId seatId2 = new ShowSeatAvailabilityId();
         seatId2.setShowCode(1);
-        seatId2.setSeatId(null);
 
         List<ShowSeatAvailabilityId> selectedSeatsId = Arrays.asList(seatId1, seatId2);
 
@@ -108,9 +105,9 @@ public class ReservationControllerTest {
         List<ShowSeatAvailability> selectedSeats = Arrays.asList(seatAvailability1, seatAvailability2);
 
         Reservation createdReservation = new Reservation();
-        createdReservation.setId(1L);
+        createdReservation.setReservationId(1L);
         createdReservation.setUser(user);
-        createdReservation.setTotal(200.0);
+        createdReservation.setTotal(200);
 
         // Configuración del mock
         when(userService.getUserById(userId)).thenReturn(user);
@@ -139,7 +136,7 @@ public class ReservationControllerTest {
         // Datos de prueba
         Long reservationId = 1L;
         Reservation reservation = new Reservation();
-        reservation.setId(reservationId);
+        reservation.setReservationId(reservationId);
 
         // Configuración del mock
         when(reservationService.getReservationById(reservationId)).thenReturn(reservation);
