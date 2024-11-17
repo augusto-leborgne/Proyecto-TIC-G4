@@ -90,6 +90,7 @@ public class ReservationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Reservation with ID " + id + " not found"));
     }
 
+    @Transactional
     public void deleteReservation(Reservation reservation) {
         List<Ticket> tickets = reservation.getTickets();
 

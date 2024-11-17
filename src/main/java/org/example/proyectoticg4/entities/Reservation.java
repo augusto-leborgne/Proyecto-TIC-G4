@@ -1,6 +1,5 @@
 package org.example.proyectoticg4.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -17,8 +16,8 @@ public class    Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "show_cod", referencedColumnName = "show_cod")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "show_cod", referencedColumnName = "show_cod", nullable = false)
     @NotNull(message = "Show cannot be null")
     private Show show;
 

@@ -1,5 +1,6 @@
 package org.example.proyectoticg4;
 
+Optimimport com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.proyectoticg4.controllers.CinemaController;
 import org.example.proyectoticg4.entities.Cinema;
 import org.example.proyectoticg4.services.CinemaService;
@@ -13,15 +14,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Arrays;
 import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class CinemaControllerTest {

@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.example.proyectoticg4.entities.*;
 import org.example.proyectoticg4.exceptions.ResourceNotFoundException;
+import org.example.proyectoticg4.repositories.ReservationRepository;
 import org.example.proyectoticg4.repositories.ShowRepository;
 import org.example.proyectoticg4.repositories.ShowSeatAvailabilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,10 @@ public class ShowService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Autowired
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
+
 
     @Autowired
     public ShowService(ShowRepository showRepository) {
