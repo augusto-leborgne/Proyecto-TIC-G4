@@ -17,7 +17,7 @@ public class    Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    @ManyToOne()
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "show_cod", referencedColumnName = "show_cod")
     @NotNull(message = "Show cannot be null")
     private Show show;
