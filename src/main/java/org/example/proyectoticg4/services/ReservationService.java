@@ -5,6 +5,7 @@ import org.example.proyectoticg4.exceptions.ResourceNotFoundException;
 import org.example.proyectoticg4.repositories.ReservationRepository;
 import org.example.proyectoticg4.repositories.ShowSeatAvailabilityRepository;
 import org.example.proyectoticg4.repositories.TicketRepository;
+import org.example.proyectoticg4.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class ReservationService {
 
     @Autowired
     private ShowSeatAvailabilityRepository showSeatAvailabilityRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public Reservation createReservationWithTickets(User user, List<ShowSeatAvailability> selectedSeats) {
@@ -101,6 +105,7 @@ public class ReservationService {
         List<Reservation> reservations = user.getReservations();
         reservations.remove(reservation);
         user.setReservations(reservations);
+        userRepository.save(user);
 
         reservationRepository.delete(reservation);
     }
