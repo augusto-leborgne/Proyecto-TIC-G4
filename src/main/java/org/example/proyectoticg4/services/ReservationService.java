@@ -61,6 +61,11 @@ public class ReservationService {
         }
 
         reservation.setTickets(tickets);
+        List<Reservation> reservations = user.getReservations();
+        reservations.add(reservation);
+        user.setReservations(reservations);
+        userRepository.save(user);
+
         return reservationRepository.save(reservation);
     }
 
@@ -102,10 +107,12 @@ public class ReservationService {
         }
 
         User user = reservation.getUser();
-        List<Reservation> reservations = user.getReservations();
-        reservations.remove(reservation);
-        user.setReservations(reservations);
-        userRepository.save(user);
+        if (user != null) {
+            List<Reservation> reservations = user.getReservations();
+            reservations.remove(reservation);
+            user.setReservations(reservations);
+            userRepository.save(user);
+        }
 
         reservationRepository.delete(reservation);
     }
