@@ -109,9 +109,11 @@ public class ReservationService {
         User user = reservation.getUser();
         if (user != null) {
             List<Reservation> reservations = user.getReservations();
-            reservations.remove(reservation);
-            user.setReservations(reservations);
-            userRepository.save(user);
+            if (!reservations.isEmpty() && reservations.contains(reservation)) {
+                reservations.remove(reservation);
+                user.setReservations(reservations);
+                userRepository.save(user);
+            }
         }
 
         reservationRepository.delete(reservation);
