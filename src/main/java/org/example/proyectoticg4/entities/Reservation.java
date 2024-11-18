@@ -16,7 +16,7 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long reservationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "show_cod", referencedColumnName = "show_cod", nullable = false)
     @NotNull(message = "Show cannot be null")
     private Show show;
