@@ -94,17 +94,19 @@ public class ReservationService {
     public void deleteReservation(Reservation reservation) {
         List<Ticket> tickets = reservation.getTickets();
 
-        for (Ticket ticket : tickets) {
-            ShowSeatAvailabilityId seatId = new ShowSeatAvailabilityId(
-                    reservation.getShow().getShowCode(),
-                    new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())
-            );
+        if(tickets != null && !tickets.isEmpty()) {
+            for (Ticket ticket : tickets) {
+                ShowSeatAvailabilityId seatId = new ShowSeatAvailabilityId(
+                        reservation.getShow().getShowCode(),
+                        new SeatId(ticket.getHallNumber(), ticket.getCinemaNumber(), ticket.getSeatColumn(), ticket.getSeatRow())
+                );
 
-            ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(seatId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Seat not found for ticket: " + ticket.gettCode()));
+                ShowSeatAvailability seat = showSeatAvailabilityRepository.findById(seatId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Seat not found for ticket: " + ticket.gettCode()));
 
-            seat.setAvailable(true);
-            showSeatAvailabilityRepository.save(seat);
+                seat.setAvailable(true);
+                showSeatAvailabilityRepository.save(seat);
+            }
         }
 
         User user = reservation.getUser();
